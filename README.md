@@ -1,5 +1,7 @@
 ## Developing
 
+Ensure you're using node version ^25.2.1
+
 Once you've created a project and installed dependencies with `npm install`, start a development server:
 
 ```sh
