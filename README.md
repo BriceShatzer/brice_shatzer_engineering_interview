@@ -1,6 +1,6 @@
 ## Developing
 
-Ensure you're using node version ^25.2.1
+Ensure you're using node version ^24.12.0
 
 Once you've created a project and installed dependencies with `npm install`, start a development server:
 
