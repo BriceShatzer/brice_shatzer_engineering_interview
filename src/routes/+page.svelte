@@ -1,7 +1,11 @@
 <script lang="ts">
+	import ComponentWrapper from '$lib/components/ComponentWrapper.svelte';
+	import HelloWorld from '$lib/components/HelloWorld.svelte';
+
 	let name = 'World';
+	let svelteVersion = '4';
 </script>
 
-<h1>Hello {name}</h1>
-
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<ComponentWrapper card>
+	<HelloWorld {name} {svelteVersion} />
+</ComponentWrapper>

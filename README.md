@@ -2,6 +2,10 @@
 
 Ensure you're using node version ^24.12.0
 
+IMPORTANT NOTE:
+
+This project uses Svelte v4, the legacy docs for this are available [here](https://svelte.dev/docs/svelte/legacy-overview)
+
 Once you've created a project and installed dependencies with `npm install`, start a development server:
 
 ```sh
@@ -20,5 +24,3 @@ npm run build
 ```
 
 You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
