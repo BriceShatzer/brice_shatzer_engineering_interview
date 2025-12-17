@@ -1,0 +1,289 @@
+/* ====================================== Fonts ====================================== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+:root {
+  /* ====================================== Colors ====================================== */
+
+  --c-white: rgba(255, 255, 255, 1);
+  --c-black: rgba(62, 63, 66, 1);
+  --c-gray-lightest: rgba(252, 252, 252, 1);
+  --c-gray-lighter: rgba(249, 250, 251, 1);
+  --c-gray-light: rgba(237, 237, 237, 1);
+  --c-gray: rgba(215, 222, 228, 1);
+  --c-gray-dark: rgba(138, 149, 168, 1);
+  --c-gray-darker: rgba(0, 0, 0, 0);
+  --c-gray-darkest: rgba(0, 0, 0, 0);
+
+  --c-yellow-lightest: rgba(0, 0, 0, 0);
+  --c-yellow-lighter: rgba(0, 0, 0, 0);
+  --c-yellow-light: rgba(0, 0, 0, 0);
+  --c-yellow: rgba(241, 197, 49, 1);
+  --c-yellow-dark: rgba(0, 0, 0, 0);
+  --c-yellow-darker: rgba(0, 0, 0, 0);
+  --c-yellow-darkest: rgba(0, 0, 0, 0);
+
+  --c-purple-lightest: rgba(0, 0, 0, 0);
+  --c-purple-lighter: rgba(0, 0, 0, 0);
+  --c-purple-light: rgba(0, 0, 0, 0);
+  --c-purple: rgba(0, 0, 0, 0);
+  --c-purple-dark: rgba(0, 0, 0, 0);
+  --c-purple-darker: rgba(0, 0, 0, 0);
+  --c-purple-darkest: rgba(0, 0, 0, 0);
+
+  --c-orange-lightest: rgba(0, 0, 0, 0);
+  --c-orange-lighter: rgba(0, 0, 0, 0);
+  --c-orange-light: rgba(0, 0, 0, 0);
+  --c-orange: rgba(245, 132, 56, 1);
+  --c-orange-dark: rgba(0, 0, 0, 0);
+  --c-orange-darker: rgba(0, 0, 0, 0);
+  --c-orange-darkest: rgba(0, 0, 0, 0);
+
+  --c-red-lightest: rgba(0, 0, 0, 0);
+  --c-red-lighter: rgba(248, 235, 237, 1);
+  --c-red-light: rgba(230, 154, 167, 1);
+  --c-red: rgba(245, 55, 88, 1);
+  --c-red-dark: rgba(211, 51, 79, 1);
+  --c-red-darker: rgba(0, 0, 0, 0);
+  --c-red-darkest: rgba(0, 0, 0, 0);
+
+  --c-green-lightest: rgba(0, 0, 0, 0);
+  --c-green-light: rgba(126, 231, 180, 1);
+  --c-green: rgba(39, 211, 129, 1);
+  --c-green-dark: rgba(8, 135, 93, 1);
+  --c-green-darker: rgba(0, 0, 0, 0);
+  --c-green-darkest: rgba(0, 0, 0, 0);
+
+  --c-blue-lightest: rgba(243, 247, 253, 1);
+  --c-blue-lighter: rgba(214, 228, 255, 1);
+  --c-blue-light: rgba(204, 225, 255, 1);
+  --c-blue: rgba(22, 101, 216, 1);
+  --c-blue-dark: rgba(16, 72, 153, 1);
+  --c-blue-darker: rgba(0, 0, 0, 0);
+  --c-blue-darkest: rgba(0, 0, 0, 0);
+
+  --primary-ci: var(--c-blue);
+
+  /* ====================================== Font Weights ====================================== */
+  --fw-light: 300;
+  --fw-base: 400;
+  --fw-medium: 500;
+  --fw-semi-bold: 600;
+  --fw-bold: 700;
+  --fw-extra-bold: 800;
+  --fw-extra-heavy-bold: 900;
+
+  /* ====================================== Z-Inidices ====================================== */
+  --layer-1: 10;
+  --layer-2: 20;
+  --layer-3: 30;
+  --layer-4: 40;
+  --layer-5: 50;
+  --layer-important: 2147483647;
+
+  /* ====================================== Spacing Scale ====================================== */
+  --s-025: 0.0625rem; /* 1px */
+  --s-05: 0.125rem; /* 2px */
+  --s-1: 0.25rem; /* 4px */
+  --s-2: 0.5rem; /* 8px */
+  --s-3: 0.75rem; /* 12px */
+  --s-4: 1rem; /* 16px */
+  --s-5: 1.25rem; /* 20px */
+  --s-6: 1.5rem; /* 24px */
+  --s-8: 2rem; /* 32px */
+  --s-9: 2.25rem; /* 36px */
+  --s-10: 2.5rem; /* 40px */
+  --s-12: 3rem; /* 48px */
+  --s-16: 4rem; /* 64px */
+  --s-20: 5rem; /* 80px */
+  --s-24: 6rem; /* 96px */
+  --s-32: 8rem; /* 128px */
+  --s-40: 10rem; /* 160px */
+  --s-48: 12rem; /* 192px */
+  --s-56: 14rem; /* 224px */
+  --s-64: 16rem; /* 256px */
+  --s-72: 18rem; /* 288px */
+  --s-80: 20rem; /* 320px */
+  --s-96: 24rem; /* 384px */
+
+  /* ====================================== Elevation ====================================== */
+
+  --shadow-none: 0px 0px 0px 0px rgba(0, 0, 0, 0);
+  --shadow-sm: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  --shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px -1px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0px 20px 25px -5px rgba(0, 0, 0, 0.1), 0px 8px 10px -6px rgba(0, 0, 0, 0.1);
+  --shadow-2xl: 0px 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+  /* ====================================== Radii ====================================== */
+
+  --radius-none: 0px;
+  --radius-sm: 2px;
+  --radius: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-3xl: 24px;
+  --radius-round: 9999px;
+
+  --primary-radius: var(--radius);
+
+  /* ====================================== Borders ====================================== */
+
+  --border-size-thin: 1px;
+  --border-size: 2px;
+  --border-size-thick: 4px;
+  --border-ci-light: var(--c-gray-light);
+  --border-ci: var(--c-gray);
+  --border-ci-dark: var(--c-gray-dark);
+
+
+  /* ====================================== Paragraph, Title, Header ====================================== */
+
+  --text-font: 'Inter';
+  --title-font: 'Inter';
+  --header-font: 'Inter';
+
+  --text-fg-ci: rgba(51, 51, 51, 1);
+  --text-light-fg-ci: rgba(107, 108, 111, 1);
+  --text-fw: 400;
+  --text-xxs-fs: 10px;
+  --text-xs-fs: 12px;
+  --text-sm-fs: 14px;
+  --text-fs: 16px;
+  --text-md-fs: 18px;
+
+  --title-fg-ci: var(--c-black);
+  --title-sm-fg-ci: var(--title-fg-ci);
+  --title-fw: var(--header-fw);
+  --title-sm-fs: 14px;
+  --title-fs: 16px;
+  --title-md-fs: 18px;
+  --title-lg-fs: 20px;
+
+  --title-lg-fw: var(--title-fw);
+  --title-lg-fg-ci: var(--title-fg-ci);
+  --title-lg-font: var(--title-font);
+
+  --header-fg-ci: var(--c-black);
+  --header-fw: 500;
+  --header-letter-spacing: 0px;
+  --header-xs-fs: 24px;
+  --header-sm-fs: 28px;
+  --header-md-fs: 32px;
+  --header-lg-fs: 40px;
+  --header-xxl-fs: 64px;
+
+  --link-fg-ci: var(--c-blue);
+  --link-fw: 400;
+  --link-fs: var(--text-fs);
+  --link-text-decoration: none;
+  --link-text-transform: none;
+  --link-hover-text-decoration: var(--link-text-decoration);
+  --link-hover-fg-ci: var(--c-blue-dark);
+
+  /* ====================================== Numbers ====================================== */
+
+  --number-fw: 500;
+  --number-font: var(--title-font);
+  --number-lg-fs: 60px;
+  --number-md-fs: 42px;
+  --number-fs: 32px;
+  --number-sm-fs: 24px;
+
+  /* ====================================== Input ====================================== */
+
+  --input-font: var(--text-font);
+  --input-fg-ci: var(--text-fg-ci);
+  --input-bg-ci: var(--c-white);
+  --input-fw: 400;
+  --input-fs: var(--text-fs);
+  --input-height: 42px;
+  --input-border-ci: var(--border-ci-dark);
+  --input-border-size: var(--border-size-thin);
+  --input-radius: var(--primary-radius);
+  --input-padding: 8px 12px;
+  --input-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
+
+  --input-placeholder-fg-ci: rgba(182, 181, 183, 1);
+  --input-placeholder-fs: var(--input-fs);
+
+  --input-error-fg-ci: var(--input-fg-ci);
+  --input-error-bg-ci: var(--c-red-lighter);
+  --input-error-border-ci: var(--c-red-dark);
+  --input-error-border-size: var(--border-size-thin);
+
+  --input-disabled-fg-ci: var(--input-placeholder-fg-ci);
+
+  --input-focus-outline: var(--focus-border-size) solid var(--focus-border-ci);
+  --input-focus-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
+
+  /* ====================================== Select ====================================== */
+
+  --select-font: var(--input-font);
+  --select-fg-ci: var(--input-fg-ci);
+  --select-bg-ci: var(--input-bg-ci);
+  --select-fw: 400;
+  --select-fs: var(--input-fs);
+  --select-height: var(--input-height);
+  --select-border-ci: var(--input-border-ci);
+  --select-border-size: var(--input-border-size);
+  --select-radius: var(--input-radius);
+  --select-padding: var(--input-padding);
+  --select-shadow: var(--input-shadow);
+
+  --select-placeholder-fg-ci: var(--input-placeholder-fg-ci);
+
+  --select-disabled-fg-ci: var(--input-disabled-fg-ci);
+
+  --select-error-bg-ci: var(--input-error-bg-ci);
+  --select-error-fg-ci: var(--input-error-fg-ci);
+  --select-error-border-ci: var(--input-error-border-ci);
+  --select-error-border-size: var(--input-error-border-size);
+
+  /* ====================================== Checkbox ====================================== */
+
+  --checkbox-bg-ci: var(--c-gray-lighter);
+  --checkbox-border-ci: var(--input-border-ci);
+  --checkbox-border-size: var(--input-border-size);
+  --checkbox-radius: var(--input-radius);
+  --checkbox-width: 18px;
+  --checkbox-height: 18px;
+
+  --checkbox-checked-bg-ci: var(--primary-ci);
+  --checkbox-checked-border-ci: rgba(0, 0, 0, 0);
+  --checkbox-checked-border-size: 0px;
+
+  --checkbox-hover-bg-ci: var(--c-gray);
+
+  --checkbox-disabled-bg-ci: var(--c-gray-light);
+
+  --checkbox-label-fs: var(--text-sm-fs);
+  --checkbox-label-fw: 400;
+  --checkbox-label-fg-ci: var(--text-fg-ci);
+
+  /* ====================================== Radio Button ====================================== */
+
+  --radio-bg-ci: var(--checkbox-bg-ci);
+  --radio-border-ci: var(--border-ci-dark);
+  --radio-border-size: var(--border-size-thin);
+  --radio-radius: var(--radius-round);
+  --radio-width: 20px;
+  --radio-height: var(--radio-width);
+
+  --radio-checked-fg-ci: var(--c-white);
+  --radio-checked-bg-ci: var(--checkbox-checked-bg-ci);
+  --radio-checked-border-ci: var(--radio-checked-bg-ci);
+
+  --radio-hover-bg-ci: var(--checkbox-hover-bg-ci);
+
+  --radio-disabled-bg-ci: var(--checkbox-disabled-bg-ci);
+
+  --radio-label-fg-ci: var(--text-fg-ci);
+  --radio-label-fw: 400;
+  --radio-label-fs: var(--text-sm-fs);
+  --radio-label-checked-fg-ci: var(--text-fg-ci);
+  --radio-label-checked-fw: 500;
+  --radio-label-gap-width: 12px;
+}
