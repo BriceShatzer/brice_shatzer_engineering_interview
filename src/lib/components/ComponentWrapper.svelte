@@ -8,11 +8,11 @@
 
 <style>
 	.card {
-		background-color: rgba(255, 255, 255, 1);
-		border-color: rgba(215, 222, 228, 1);
-		border-width: 1px;
+		background-color: var(--c-white);
+		border-color: var(--border-ci);
+		border-width: var(--border-size);
 		border-style: solid;
-		border-radius: 6px;
-		padding: 20px;
+		border-radius: var(--radius-lg);
+		padding: var(--s-4);
 	}
 </style>

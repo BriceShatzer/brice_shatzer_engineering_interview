@@ -1,4 +1,5 @@
 <script lang="ts">
+	import '../app.css';
 	import ComponentWrapper from '$lib/components/ComponentWrapper.svelte';
 	import HelloWorld from '$lib/components/HelloWorld.svelte';
 
