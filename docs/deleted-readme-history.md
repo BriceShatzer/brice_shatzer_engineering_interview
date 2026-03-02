@@ -30,13 +30,13 @@ You can preview the production build with `npm run preview`.
 **SvelteKit Frontend Exercise (Paid)**  
 This paid exercise is designed to evaluate how you design, structure, and implement a small SvelteKit application under realistic constraints. You will be working in a SvelteKit codebase we've provided, using Svelte & TypeScript throughout.
 
----  
+---
 
 **Time Expectation**  
 You may take up to two days to complete this exercise. You are not expected to use the full time, and partial solutions are acceptable.
 
----  
-  
+---
+
 **Technology & Constraints**  
 The application should be built using SvelteKit and TypeScript and styled with plain CSS (or SCSS if already configured). A shared CSS variables stylesheet has been provided and should be used consistently for spacing, colors, and typography. Please do not use Tailwind, component libraries, or other styling frameworks.
 
@@ -128,9 +128,9 @@ Please submit:
 
 ---
 
-**Important Links**  
-  
-  Figma password and API key will be provided by the Array talent team.
+**Important Links**
+
+Figma password and API key will be provided by the Array talent team.
 
 - **API documentation:** https://northwind.dev.array.io/swagger/index.html#/
 - **Figma:** https://www.figma.com/design/MHYrsFt7CEgzyGu3PhyuKV/Array-front-end-interview?node-id=0-1&p=f&m=dev

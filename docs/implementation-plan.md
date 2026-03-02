@@ -1,6 +1,7 @@
 # NorthWind Banking App - Implementation Plan
 
 ## Context
+
 This is Array's paid frontend interview exercise. We need to build a SvelteKit app (Svelte 4) with two views - **Accounts** and **Balance Transfer** - using the Northwind Bank API, matching the provided Figma designs. The project has a 48-hour deadline starting 3/2/2026 at 8 AM.
 
 ## Architecture Decisions
@@ -57,9 +58,11 @@ src/
 ## Implementation Steps
 
 ### Step 1: Foundation - Types & API Layer
+
 **Files**: `src/lib/types/index.ts`, `src/lib/api/client.server.ts`, `src/lib/api/accounts.server.ts`, `src/lib/api/transfers.server.ts`
 
 Define TypeScript interfaces matching the API swagger spec:
+
 - `AccountSummary`, `AccountsResponse`, `PaginationInfo`
 - `TransferRequest`, `TransferAccountInfo`, `TransferStatusResponse`
 - `ApiError` for error responses
@@ -68,11 +71,13 @@ Define TypeScript interfaces matching the API swagger spec:
 API client (`*.server.ts` files - server-only): typed fetch wrapper using `NORTHWIND_API_KEY` from `$env/static/private`. Base URL: `https://northwind.dev.array.io`. Explicit error handling that parses error response bodies. These files can only be imported in server contexts (`+page.server.ts`, `+server.ts`, `+layout.server.ts`).
 
 Create `.env` file:
+
 ```
 NORTHWIND_API_KEY=REDACTED_API_KEY
 ```
 
 ### Step 2: Utilities
+
 **Files**: `src/lib/utils/format.ts`, `src/lib/utils/accounts.ts`
 
 - `formatCurrency(amount)` - Intl.NumberFormat USD formatting
@@ -82,9 +87,11 @@ NORTHWIND_API_KEY=REDACTED_API_KEY
 - `formatAccountLabel(name, number)` - "Everyday Checking...8821" format
 
 ### Step 3: Store & Data Flow
+
 **File**: `src/lib/stores/accounts.ts`
 
 Data flows server -> client via SvelteKit's load functions:
+
 - `+layout.server.ts` fetches accounts via `fetchAccounts()` and returns them as page data
 - Client components receive accounts via `export let data` (page data) in the layout/pages
 - `accountsStore`: writable store initialized from page data, used for client-side reactivity (e.g., updating balances after transfer without full page reload)
@@ -93,15 +100,18 @@ Data flows server -> client via SvelteKit's load functions:
 - After a successful transfer, call `invalidateAll()` to re-run the server load and refresh balances
 
 ### Step 4: Mock Data
+
 **Files**: `src/lib/data/mockActivity.ts`, `src/lib/data/mockTransfers.ts`
 
 Match the Figma exactly:
+
 - Activity: Grocery Store (-$82.45), Salary Deposit (+$2,800), Coffee Shop (-$5.75), Interest Payment (+$5.24), Transfer to Savings (-$250)
 - Transfers: To High-Yield Savings (-$250), To Everyday Checking (+$150), To Rewards Credit (+$430.12)
 
 Use existing SVG assets (shopping-cart, money-bag, hot-beverage, bank) for icons.
 
 ### Step 5: Layout & Header
+
 **Files**: `src/routes/+layout.svelte`, `src/routes/+page.ts`, `src/lib/components/Header.svelte`
 
 - Layout: light gray page background, centered white card container (max-width ~1200px, rounded corners, shadow)
@@ -109,37 +119,45 @@ Use existing SVG assets (shopping-cart, money-bag, hot-beverage, bank) for icons
 - Root page redirects to `/accounts`
 
 ### Step 6: Accounts View
+
 **Files**: `src/routes/accounts/+page.svelte`, `src/lib/components/TotalBalanceCard.svelte`, `src/lib/components/AccountCard.svelte`, `src/lib/components/ActivityItem.svelte`
 
 Layout per Figma:
+
 - **Desktop**: Two-column grid (~55% / 45%)
 - **Mobile** (< 768px): Single column, stacked
 
 Left column:
+
 - `TotalBalanceCard`: Blue gradient background, large dollar amount, "Across N accounts"
 - "Your accounts" heading
 - List of `AccountCard` components showing: display name + balance, masked account number + type badge + status
 
 Right column:
+
 - "Recent Activity" card with mock data `ActivityItem` list
 
 States: loading spinner, error banner with retry, populated view.
 
 ### Step 7: Transfer View - Form
+
 **Files**: `src/routes/transfers/+page.svelte`, `src/lib/components/TransferForm.svelte`, `src/lib/components/AccountSelect.svelte`, `src/lib/components/TransferSummary.svelte`
 
 Transfer page uses a state machine:
+
 ```
 'form' -> 'submitting' -> 'success' | 'failure' -> 'form'
 ```
 
 **AccountSelect** (custom dropdown):
+
 - Button trigger showing "Choose account" (empty) or selected account info
 - Dropdown list of all accounts; FROZEN/CLOSED accounts shown but visually disabled/not selectable
 - Exclude already-selected account from the other dropdown
 - ARIA: `role="listbox"`, `role="option"`, `aria-expanded`, keyboard nav
 
 **TransferForm** validation (frontend, before API call):
+
 - Source and destination must be selected
 - Cannot transfer to same account
 - Amount must be > 0
@@ -147,16 +165,19 @@ Transfer page uses a state machine:
 - Both accounts must be ACTIVE
 
 **TransferSummary** (right side):
+
 - Empty state: "From: - / To: -"
 - Filled: Shows projected new balances after transfer
 
 **Submit flow**:
+
 1. Build `TransferRequest` (direction: OUTBOUND, transfer_type: ACH, institution_name: "Northwind Bank", generate reference_number)
 2. POST to `/api/transfers` (SvelteKit server route that proxies to the Northwind API)
 3. Success -> show TransferResult success, then `invalidateAll()` to refresh account balances from server
 4. Failure -> show TransferResult failure with API error message
 
 ### Step 8: Transfer Result Screens
+
 **File**: `src/lib/components/TransferResult.svelte`
 
 - **Success**: Green checkmark circle, "Transfer Successful", details table (Amount, From, To, Date, Confirmation #), "Done" button -> resets to form
@@ -165,6 +186,7 @@ Transfer page uses a state machine:
 Full-screen centered card (replaces the two-column layout).
 
 ### Step 9: Accessibility & Polish
+
 - Semantic HTML: `<header>`, `<nav>`, `<main>`, `<section>`, proper headings hierarchy
 - All form controls labeled (`<label for>`)
 - Visible focus styles using `var(--input-focus-outline)` from tokens
@@ -174,13 +196,16 @@ Full-screen centered card (replaces the two-column layout).
 - Keyboard-navigable AccountSelect dropdown
 
 ### Step 10: README Updates
+
 Document:
+
 - How to run (npm install, add .env with API key, npm run dev)
 - Assumptions: account display names derived from type, mock data for activity/transfers
 - Trade-offs: custom dropdown vs native select, routes vs conditional rendering
 - What I'd improve with more time
 
 ## Key Existing Files to Reuse
+
 - `src/lib/styles/tokens.css` - All CSS variables for colors, spacing, typography, forms
 - `src/lib/styles/reset.css` - CSS reset
 - `src/lib/components/ComponentWrapper.svelte` - Card wrapper (border, radius, padding)
@@ -188,6 +213,7 @@ Document:
 - `src/lib/assets/bank.svg`, `shopping-cart.svg`, `money-bag.svg`, `hot-beverage.svg` - Activity icons
 
 ## Verification
+
 1. `npm run dev` - app runs without errors
 2. Navigate to `/` - redirects to `/accounts`
 3. Accounts view: accounts load from API via server, display correctly with balances

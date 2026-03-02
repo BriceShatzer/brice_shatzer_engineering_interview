@@ -1,0 +1,127 @@
+<script lang="ts">
+	import { resolveRoute } from '$app/paths';
+	import { accounts, totalBalance, activeAccountCount } from '$lib/stores/accounts';
+	import TotalBalanceCard from '$lib/components/TotalBalanceCard.svelte';
+	import AccountCard from '$lib/components/AccountCard.svelte';
+	import ActivityItem from '$lib/components/ActivityItem.svelte';
+	import { mockActivity } from '$lib/data/mockActivity';
+	import type { PageData } from './$types';
+
+	export let data: PageData;
+</script>
+
+<svelte:head>
+	<title>Accounts - NorthWind</title>
+</svelte:head>
+
+<div class="accounts-page">
+	{#if data.error}
+		<div class="error-banner" role="alert">
+			<p>Failed to load accounts: {data.error}</p>
+			<a href={resolveRoute('/accounts')}>Retry</a>
+		</div>
+	{:else}
+		<div class="content-grid">
+			<div class="left-column">
+				<TotalBalanceCard totalBalance={$totalBalance} accountCount={$activeAccountCount} />
+
+				<section aria-label="Your accounts">
+					<h2 class="section-heading">Your accounts</h2>
+					<div class="account-list">
+						{#each $accounts as account (account.account_id)}
+							<AccountCard {account} />
+						{/each}
+					</div>
+				</section>
+			</div>
+
+			<div class="right-column">
+				<section class="activity-card" aria-label="Recent activity">
+					<h2 class="card-heading">Recent Activity</h2>
+					<p class="card-subtitle">Latest movements across all accounts</p>
+					<div class="activity-list">
+						{#each mockActivity as item (item.id)}
+							<ActivityItem {item} />
+						{/each}
+					</div>
+				</section>
+			</div>
+		</div>
+	{/if}
+</div>
+
+<style>
+	.accounts-page {
+		padding: var(--s-6);
+	}
+
+	.content-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: var(--s-6);
+	}
+
+	.left-column {
+		display: flex;
+		flex-direction: column;
+		gap: var(--s-6);
+	}
+
+	.section-heading {
+		font-size: var(--text-sm-fs);
+		font-weight: var(--fw-medium);
+		color: var(--text-light-fg-ci);
+		margin-bottom: var(--s-3);
+	}
+
+	.account-list {
+		display: flex;
+		flex-direction: column;
+		gap: var(--s-3);
+	}
+
+	.activity-card {
+		border: var(--border-size-thin) solid var(--border-ci-light);
+		border-radius: var(--radius-lg);
+		padding: var(--s-4);
+	}
+
+	.card-heading {
+		font-size: var(--title-fs);
+		font-weight: var(--fw-semi-bold);
+		color: var(--text-fg-ci);
+		margin-bottom: var(--s-1);
+	}
+
+	.card-subtitle {
+		font-size: var(--text-xs-fs);
+		color: var(--text-light-fg-ci);
+		margin-bottom: var(--s-3);
+	}
+
+	.error-banner {
+		background-color: var(--c-red-lighter);
+		border: var(--border-size-thin) solid var(--c-red);
+		border-radius: var(--radius-lg);
+		padding: var(--s-4);
+		text-align: center;
+		color: var(--c-red-dark);
+	}
+
+	.error-banner a {
+		color: var(--c-blue);
+		font-weight: var(--fw-medium);
+		text-decoration: underline;
+		margin-left: var(--s-2);
+	}
+
+	@media (max-width: 768px) {
+		.content-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.accounts-page {
+			padding: var(--s-4);
+		}
+	}
+</style>
