@@ -58,6 +58,29 @@ export interface TransferStatusResponse {
 	fee: number;
 }
 
+export interface TransferSummary {
+	transfer_id: string;
+	amount: number;
+	currency: string;
+	description: string;
+	transfer_type: string;
+	status: string;
+	direction: string;
+	reference_number: string;
+	fee: number;
+	initiated_date: string;
+	processing_date: string;
+	expected_completion_date: string;
+	completed_date?: string;
+	source_account: TransferAccountDetails;
+	destination_account: TransferAccountDetails;
+}
+
+export interface TransferListResponse {
+	transfers: TransferSummary[];
+	pagination: PaginationInfo;
+}
+
 export interface ApiErrorDetail {
 	code: string;
 	message: string;

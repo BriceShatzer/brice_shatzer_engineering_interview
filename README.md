@@ -57,6 +57,7 @@ All API calls are made server-side through SvelteKit server load functions and A
 - `src/lib/api/client.server.ts` - Typed fetch wrapper with auth
 - `src/routes/+layout.server.ts` - Fetches accounts on page load
 - `src/routes/api/transfers/+server.ts` - Proxies transfer requests to the Northwind API
+- `src/routes/transfers/+page.server.ts` - Fetches recent transfers on page load
 
 ### State Management
 
@@ -91,12 +92,11 @@ The API returns generic `account_type` values (CHECKING, SAVINGS, CD, LOAN) rath
 
 ### Mock Data
 
-The following UI sections use mock data because no corresponding API endpoint exists:
+The following UI section uses mock data because no corresponding API endpoint exists:
 
-- **Recent Activity** (`src/lib/data/mockActivity.ts`) - The transaction history shown on the Accounts view
-- **Recent Transfers** (`src/lib/data/mockTransfers.ts`) - The transfer history shown on the Transfers view
+- **Recent Activity** (`src/lib/data/mockActivity.ts`) - The transaction history shown on the Accounts view. The API does not provide a transactions or activity endpoint.
 
-Mock data matches the items shown in the Figma design.
+**Recent Transfers** on the Transfers view are fetched from the real `GET /external/transfers` API endpoint via a server load function (`src/routes/transfers/+page.server.ts`).
 
 ## Trade-offs
 
@@ -111,6 +111,6 @@ Mock data matches the items shown in the Figma design.
 - Implement account number masking toggle (show/hide full number)
 - Add transition animations between form/success/failure states
 - Add more thorough form validation feedback (inline as-you-type)
-- Implement the "Recent Activity" and "Recent Transfers" from real API data if an appropriate endpoint were available
+- Implement "Recent Activity" from real API data if an appropriate endpoint were available
 - Add error boundary components for more graceful error recovery
 - Responsive refinements for intermediate breakpoints (tablet)

@@ -1,14 +1,25 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
 	import { accounts } from '$lib/stores/accounts';
-	import type { AccountSummary, TransferRequest, TransferStatusResponse } from '$lib/types';
+	import type { AccountSummary, RecentTransfer, TransferRequest, TransferStatusResponse } from '$lib/types';
 	import { getDisplayName } from '$lib/utils/accounts';
-	import { formatAccountLabel } from '$lib/utils/format';
+	import { formatAccountLabel, formatDate } from '$lib/utils/format';
 	import TransferForm from '$lib/components/TransferForm.svelte';
 	import TransferSummary from '$lib/components/TransferSummary.svelte';
 	import TransferResult from '$lib/components/TransferResult.svelte';
 	import RecentTransferItem from '$lib/components/RecentTransferItem.svelte';
-	import { mockTransfers } from '$lib/data/mockTransfers';
+	import type { PageData } from './$types';
+
+	export let data: PageData;
+
+	$: recentTransfers = (data.transfers ?? []).map((t): RecentTransfer => ({
+		id: t.transfer_id,
+		toAccountName: `To ${t.destination_account.account_holder_name}`,
+		date: formatDate(t.initiated_date),
+		fromDescription: `From ${t.source_account.account_holder_name}`,
+		amount: t.direction === 'OUTBOUND' ? -t.amount : t.amount,
+		icon: 'bank'
+	}));
 
 	type ViewState =
 		| { kind: 'form' }
@@ -126,7 +137,7 @@
 					<h3 class="card-heading">Recent transfers</h3>
 					<p class="card-subtitle">Quick reference of your latest internal transfers.</p>
 					<div class="transfer-list">
-						{#each mockTransfers as item (item.id)}
+						{#each recentTransfers as item (item.id)}
 							<RecentTransferItem {item} />
 						{/each}
 					</div>
