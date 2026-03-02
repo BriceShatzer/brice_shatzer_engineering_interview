@@ -40,6 +40,9 @@ npm run build
 
 Preview the production build with `npm run preview`.
 
+
+<!-- generated after initial build. check it's accuracy prior to submitting 
+
 ## Architecture
 
 ### Routing
@@ -114,3 +117,5 @@ The following UI section uses mock data because no corresponding API endpoint ex
 - Implement "Recent Activity" from real API data if an appropriate endpoint were available
 - Add error boundary components for more graceful error recovery
 - Responsive refinements for intermediate breakpoints (tablet)
+
+-->

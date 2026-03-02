@@ -28,7 +28,9 @@
 		margin: 0 auto;
 		background-color: var(--c-white);
 		border-radius: var(--radius-xl);
-		box-shadow: var(--shadow-lg);
+		border: 1px solid var(--c-gray);
+		padding: var(--s-6);
+		gap: var(--s-6);
 		overflow: hidden;
 	}
 

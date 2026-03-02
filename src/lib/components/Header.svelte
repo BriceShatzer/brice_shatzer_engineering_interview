@@ -53,8 +53,11 @@
 
 	.nav-link {
 		font-family: var(--text-font);
-		font-size: var(--text-md-fs);
+		font-size: var(--text-fs);
 		font-weight: var(--fw-medium);
+		line-height: 1;
+		letter-spacing: 0;
+		text-align: center;
 		color: var(--c-gray-dark);
 		text-decoration: none;
 		padding: var(--s-1) 0;
@@ -67,7 +70,6 @@
 
 	.nav-link.active {
 		color: var(--c-blue);
-		font-weight: var(--fw-semi-bold);
 	}
 
 	.nav-link:focus-visible {
