@@ -3,14 +3,17 @@
 # My Notes
 
 **To Dos:**  
-- more accurate styling 
+
 - check all sensitive data is sever side  
   - keys
   - account numbers
+- merge activity & transfers
+- pretty view for transfers
 - tests  
 - number formats  
 - README!!
-
+- more accurate styling 
+- get execution paths for things
 
 ---
 
@@ -18,7 +21,7 @@
 
 - **SVELTE 4 !!**
 - Money
-  -
+  - [dinero.js](https://www.dinerojs.com/)
 
   ```javascript
   // --- Store and Calculate in Minor Units
