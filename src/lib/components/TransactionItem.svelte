@@ -44,15 +44,12 @@
 		padding: var(--s-3) 0;
 	}
 
-	.transaction-item:not(:last-child) {
-		border-bottom: var(--border-size-thin) solid var(--border-ci-light);
-	}
-
 	.icon-wrapper {
-		width: 36px;
-		height: 36px;
+		width: var(--s-8);
+		height: var(--s-8);
 		border-radius: var(--radius-round);
-		background-color: var(--c-gray-lighter);
+		background-color: var(--c-gray-light);
+		border: 1px solid var(--c-gray);
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -60,8 +57,8 @@
 	}
 
 	.icon {
-		width: 20px;
-		height: 20px;
+		width: var(--s-3);
+		height: var(--s-3);
 	}
 
 	.details {

@@ -165,7 +165,9 @@
 	}
 
 	.recent-card {
-		border: var(--border-size-thin) solid var(--border-ci-light);
+		background-color: var(--c-gray-lighter);
+		border: var(--border-size-thin) solid var(--c-gray);
+		/* border: var(--border-size-thin) solid var(--border-ci-light); */
 		border-radius: var(--radius-lg);
 		padding: var(--s-4);
 	}

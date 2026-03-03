@@ -34,7 +34,6 @@
 		justify-content: space-between;
 		align-items: center;
 		padding: var(--s-4) var(--s-6);
-		border-bottom: var(--border-thin) solid var(--border-light-ci);
 	}
 
 	.logo {
