@@ -15,7 +15,7 @@ export const mockActivity: ActivityItem[] = [
 		date: 'Dec 13',
 		accountName: 'Everyday Checking',
 		amount: 2800.0,
-		icon: 'money-bag'
+		icon: 'briefcase'
 	},
 	{
 		id: '3',
@@ -31,7 +31,7 @@ export const mockActivity: ActivityItem[] = [
 		date: 'Dec 1',
 		accountName: 'High-Yield Savings',
 		amount: 5.24,
-		icon: 'bank'
+		icon: 'money-bag'
 	},
 	{
 		id: '5',

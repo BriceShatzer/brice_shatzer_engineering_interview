@@ -1,35 +1,50 @@
 <script lang="ts">
-	import type { RecentTransfer } from '$lib/types';
 	import { formatSignedCurrency } from '$lib/utils/format';
 	import bankIcon from '$lib/assets/bank.svg';
+	import shoppingCartIcon from '$lib/assets/shopping-cart.svg';
+	import moneyBagIcon from '$lib/assets/money-bag.svg';
+	import hotBeverageIcon from '$lib/assets/hot-beverage.svg';
+	import briefcaseIcon from '$lib/assets/briefcase.svg';
 
-	export let item: RecentTransfer;
+	export let title: string;
+	export let meta: string;
+	export let amount: number;
+	export let icon: string = 'bank';
 
-	$: isNegative = item.amount < 0;
+	const iconMap: Record<string, string> = {
+		bank: bankIcon,
+		'shopping-cart': shoppingCartIcon,
+		'money-bag': moneyBagIcon,
+		'hot-beverage': hotBeverageIcon,
+		'briefcase': briefcaseIcon,
+	};
+
+	$: iconSrc = iconMap[icon] ?? bankIcon;
+	$: isNegative = amount < 0;
 </script>
 
-<div class="transfer-item">
+<div class="transaction-item">
 	<div class="icon-wrapper">
-		<img src={bankIcon} alt="" aria-hidden="true" class="icon" />
+		<img src={iconSrc} alt="" aria-hidden="true" class="icon" />
 	</div>
 	<div class="details">
-		<p class="description">{item.toAccountName}</p>
-		<p class="meta">{item.date} &middot; {item.fromDescription}</p>
+		<p class="description">{title}</p>
+		<p class="meta">{meta}</p>
 	</div>
 	<span class="amount" class:negative={isNegative} class:positive={!isNegative}>
-		{formatSignedCurrency(item.amount)}
+		{formatSignedCurrency(amount)}
 	</span>
 </div>
 
 <style>
-	.transfer-item {
+	.transaction-item {
 		display: flex;
 		align-items: center;
 		gap: var(--s-3);
 		padding: var(--s-3) 0;
 	}
 
-	.transfer-item:not(:last-child) {
+	.transaction-item:not(:last-child) {
 		border-bottom: var(--border-size-thin) solid var(--border-ci-light);
 	}
 

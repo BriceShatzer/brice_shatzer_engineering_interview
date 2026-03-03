@@ -7,7 +7,7 @@
 	import TransferForm from '$lib/components/TransferForm.svelte';
 	import TransferSummary from '$lib/components/TransferSummary.svelte';
 	import TransferResult from '$lib/components/TransferResult.svelte';
-	import RecentTransferItem from '$lib/components/RecentTransferItem.svelte';
+	import TransactionItem from '$lib/components/TransactionItem.svelte';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
@@ -138,7 +138,7 @@
 					<p class="card-subtitle">Quick reference of your latest internal transfers.</p>
 					<div class="transfer-list">
 						{#each recentTransfers as item (item.id)}
-							<RecentTransferItem {item} />
+							<TransactionItem title={item.toAccountName} meta="{item.date} · {item.fromDescription}" amount={item.amount} />
 						{/each}
 					</div>
 				</section>

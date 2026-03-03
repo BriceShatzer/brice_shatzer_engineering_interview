@@ -3,7 +3,7 @@
 	import { accounts, totalBalance, activeAccountCount } from '$lib/stores/accounts';
 	import TotalBalanceCard from '$lib/components/TotalBalanceCard.svelte';
 	import AccountCard from '$lib/components/AccountCard.svelte';
-	import ActivityItem from '$lib/components/ActivityItem.svelte';
+	import TransactionItem from '$lib/components/TransactionItem.svelte';
 	import { mockActivity } from '$lib/data/mockActivity';
 	import type { PageData } from './$types';
 
@@ -41,7 +41,7 @@
 					<p class="card-subtitle">Latest movements across all accounts</p>
 					<div class="activity-list">
 						{#each mockActivity as item (item.id)}
-							<ActivityItem {item} />
+							<TransactionItem title={item.description} meta="{item.date} · {item.accountName}" amount={item.amount} icon={item.icon} />
 						{/each}
 					</div>
 				</section>
