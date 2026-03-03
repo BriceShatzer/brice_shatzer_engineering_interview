@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
 	import { accounts } from '$lib/stores/accounts';
-	import type { AccountSummary, RecentTransfer, TransferRequest, TransferStatusResponse } from '$lib/types';
+	import type { AccountSummary, RecentTransfer, TransferStatusResponse } from '$lib/types';
 	import { getDisplayName } from '$lib/utils/accounts';
 	import { formatAccountLabel, formatDate } from '$lib/utils/format';
 	import TransferForm from '$lib/components/TransferForm.svelte';
@@ -44,32 +44,15 @@
 		const { source, destination, amount: transferAmount } = e.detail;
 		viewState = { kind: 'submitting' };
 
-		const transferRequest: TransferRequest = {
-			amount: transferAmount,
-			currency: 'USD',
-			description: `Transfer from ${getDisplayName(source)} to ${getDisplayName(destination)}`,
-			direction: 'OUTBOUND',
-			transfer_type: 'ACH',
-			reference_number: `REF-${Date.now()}`,
-			source_account: {
-				account_number: source.account_number,
-				account_holder_name: source.account_holder_name,
-				institution_name: 'Northwind Bank',
-				routing_number: source.routing_number
-			},
-			destination_account: {
-				account_number: destination.account_number,
-				account_holder_name: destination.account_holder_name,
-				institution_name: 'Northwind Bank',
-				routing_number: destination.routing_number
-			}
-		};
-
 		try {
 			const response = await fetch('/api/transfers', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(transferRequest)
+				body: JSON.stringify({
+					source_account_id: source.account_id,
+					destination_account_id: destination.account_id,
+					amount: transferAmount
+				})
 			});
 
 			if (!response.ok) {
