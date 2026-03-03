@@ -2,11 +2,18 @@
 
 # My Notes
 
+
+**Things to bring up:**  
+
+- transfer api — The POST `/external/transfers/initiate` response returns `source_account` with empty `account_number` and `account_holder_name` fields. It also appears to swap the source and destination account routing numbers. We patch the response with correct data from the original request at the API boundary (`/api/transfers/+server.ts`), and cache the account data in-memory on the server so that the transfer history list also displays correct values for transfers the app initiated.  
+*Note: the cache resets on server restart, so older transfers will still fall back to "Unknown"*.
+
+
+
+
 **To Dos:**  
 
-- check all sensitive data is sever side  
-  - keys
-  - account numbers
+
 - merge activity & transfers
 - pretty view for transfers
 - tests  
@@ -14,6 +21,10 @@
 - README!!
 - more accurate styling 
 - get execution paths for things
+- keep account numbers sever side  
+
+
+
 
 ---
 
@@ -52,6 +63,8 @@
 - mask acct numbers server side?
 
 - API doesn't return pretty names ("Everyday Checking", "High-Yield Savings")
+
+- excludeAccountId in TransferForm.svelte & AccountSelect.svelte - does this serve a purpose?
 
 ## ask about
 

@@ -14,9 +14,9 @@
 
 	$: recentTransfers = (data.transfers ?? []).map((t): RecentTransfer => ({
 		id: t.transfer_id,
-		toAccountName: `To ${t.destination_account.account_holder_name}`,
+		toAccountName: `To ${t.destination_account.account_holder_name || 'Unknown'}`,
 		date: formatDate(t.initiated_date),
-		fromDescription: `From ${t.source_account.account_holder_name}`,
+		fromDescription: `From ${t.source_account.account_holder_name || 'Unknown'}`,
 		amount: t.direction === 'OUTBOUND' ? -t.amount : t.amount,
 		icon: 'bank'
 	}));

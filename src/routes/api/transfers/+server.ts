@@ -1,5 +1,5 @@
 import { json } from '@sveltejs/kit';
-import { initiateTransfer } from '$lib/api/transfers.server';
+import { cacheTransferAccountData, initiateTransfer } from '$lib/api/transfers.server';
 import { ApiError } from '$lib/api/client.server';
 import type { RequestHandler } from './$types';
 import type { TransferRequest } from '$lib/types';
@@ -8,6 +8,11 @@ export const POST: RequestHandler = async ({ request }) => {
 	try {
 		const body = (await request.json()) as TransferRequest;
 		const result = await initiateTransfer(body);
+		// The API returns incomplete account data (empty account_number/account_holder_name)
+		// and swaps source/destination routing numbers. Patch with correct data from the original request.
+		result.source_account = { ...result.source_account, ...body.source_account };
+		result.destination_account = { ...result.destination_account, ...body.destination_account };
+		cacheTransferAccountData(result.transfer_id, body.source_account, body.destination_account);
 		return json(result, { status: 201 });
 	} catch (e) {
 		if (e instanceof ApiError) {
