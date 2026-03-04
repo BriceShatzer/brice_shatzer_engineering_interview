@@ -40,7 +40,7 @@ describe('transfers page server load', () => {
 			pagination: { total: 1, page: 1, per_page: 10 }
 		});
 
-		const result = await load();
+		const result = await load({} as any) as Record<string, any>;
 		expect(result.transfers).toHaveLength(1);
 		expect(result.transfers[0].transfer_id).toBe('txn-1');
 	});
@@ -48,7 +48,7 @@ describe('transfers page server load', () => {
 	it('should return empty transfers array and error on failure', async () => {
 		mockFetchTransfers.mockRejectedValue(new Error('Network error'));
 
-		const result = await load();
+		const result = await load({} as any) as Record<string, any>;
 		expect(result.transfers).toEqual([]);
 		expect((result as { error?: string }).error).toBe('Network error');
 	});
@@ -56,7 +56,7 @@ describe('transfers page server load', () => {
 	it('should return generic error message for non-Error throws', async () => {
 		mockFetchTransfers.mockRejectedValue('string error');
 
-		const result = await load();
+		const result = await load({} as any) as Record<string, any>;
 		expect((result as { error?: string }).error).toBe('Failed to load transfers');
 	});
 });

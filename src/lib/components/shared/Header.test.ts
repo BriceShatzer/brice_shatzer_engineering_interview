@@ -1,7 +1,10 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { render } from '@testing-library/svelte';
 import { page } from '$app/stores';
+import type { Writable } from 'svelte/store';
 import Header from './Header.svelte';
+
+const writablePage = page as unknown as Writable<{ url: { pathname: string } }>;
 
 // The $app/stores alias in vitest.config.ts points to src/__mocks__/app-stores.ts,
 // which exports a writable `page` store. Both this test and the Header component
@@ -22,7 +25,7 @@ describe('Header – structure', () => {
 
 describe('Header – active link on /accounts', () => {
 	beforeEach(() => {
-		page.set({ url: { pathname: '/accounts' } });
+		writablePage.set({ url: { pathname: '/accounts' } });
 	});
 
 	it('marks the Accounts link as current page', () => {
@@ -38,7 +41,7 @@ describe('Header – active link on /accounts', () => {
 
 describe('Header – active link on /transfers', () => {
 	beforeEach(() => {
-		page.set({ url: { pathname: '/transfers' } });
+		writablePage.set({ url: { pathname: '/transfers' } });
 	});
 
 	it('marks the Transfers link as current page', () => {
