@@ -144,8 +144,7 @@ src/
 │   │   │   └── TotalBalanceCard.svelte
 │   │   ├── shared/
 │   │   │   ├── Header.svelte         # Nav bar with active-route highlighting
-│   │   │   ├── TransactionItem.svelte # Reused in both accounts & transfers
-│   │   │   └── ComponentWrapper.svelte
+│   │   │   └── TransactionItem.svelte # Reused in both accounts & transfers
 │   │   └── transfers/
 │   │       ├── AccountSelect.svelte  # Custom accessible dropdown
 │   │       ├── TransferForm.svelte   # Form with validation
@@ -173,6 +172,7 @@ src/
 ├── routes/
 │   ├── +layout.server.ts           # Root data loader (accounts, bank, domains)
 │   ├── +layout.svelte              # App shell, hydrates stores
+│   ├── +error.svelte               # Custom error page (404, 500, etc.)
 │   ├── +page.ts                    # Redirects / → /accounts
 │   ├── accounts/
 │   │   ├── +page.server.ts         # Loads transfer history for activity feed
@@ -186,7 +186,7 @@ src/
 │
 ├── __mocks__/                      # Test mocks for SvelteKit virtual modules
 │   ├── env.ts                      # $env/static/private
-│   └── app-stores.ts              # $app/stores (writable page store)
+│   └── app-stores.ts              # $app/stores (writable page and navigating stores)
 │
 └── test-setup.ts                   # Vitest setup (jest-dom matchers)
 ```
@@ -217,14 +217,14 @@ npm run test:coverage
 
 ### Current Coverage
 
-**20 test files, 160 tests, all passing.** Coverage spans utilities, stores, API layer, route loaders, and components.
+**21 test files, 166 tests, all passing.** Coverage spans utilities, stores, API layer, route loaders, and components.
 
 | Layer      | Files                                                                          |
 | ---------- | ------------------------------------------------------------------------------ |
 | Utilities  | `format.test.ts` (20), `accounts.test.ts` (16)                                |
 | Stores     | `accounts.test.ts` (10), `bank.test.ts` (4), `domains.test.ts` (2)            |
 | API        | `client.server.test.ts` (10), `transfers.server.test.ts` (6)                  |
-| Routes     | `layout.server` (4), `accounts/page.server` (5), `transfers/page.server` (3)  |
+| Routes     | `layout.server` (4), `accounts/page.server` (5), `transfers/page.server` (3), `error` (6) |
 | API routes | `api/transfers/server` (4), `api/transfers/validate/server` (4)               |
 | Components | `AccountSelect` (18), `TransferForm` (15), `TransferResult` (10), `TransferSummary` (7), `AccountCard` (7), `Header` (6), `TransactionItem` (5), `TotalBalanceCard` (4) |
 
@@ -244,7 +244,7 @@ resolve: {
 }
 ```
 
-The `$app/stores` mock exposes writable `page` and `navigating` stores. Tests can call `page.set(...)` to simulate route changes (used for testing `Header`'s active-link behavior).
+The `$app/stores` mock exposes writable `page` and `navigating` stores. Tests can call `page.set(...)` to simulate different route and error states (used for testing `Header`'s active-link behavior and the `+error.svelte` status headings).
 
 ---
 
@@ -291,8 +291,8 @@ On both the transfers page and accounts activity feed, if a transfer's descripti
 ## Trade-offs & What I'd Improve
 
 - **End-to-end tests**: The test suite covers units and components but doesn't exercise full user flows. Playwright tests for the transfer lifecycle (fill form, submit, verify result screen, check history) would catch integration issues.
-- **Error boundaries**: Errors currently show inline banners. A more robust approach would use SvelteKit's `+error.svelte` pages with proper status codes and retry logic.
+- **Error boundaries**: Route-level errors are caught by `src/routes/+error.svelte`, which renders a branded card with the HTTP status and message. Inline load errors (e.g., failed account fetch) still show banners rather than throwing — a future improvement could convert those to proper `error()` throws so they route through the same boundary.
 - **Loading states**: The accounts activity feed uses SvelteKit streaming (`{#await data.transfers}`) to show a skeleton while transfer history loads, and a navigation bar appears during page transitions. The initial render still blocks on the layout load (accounts, bank, domains) — streaming those too would require reworking the store hydration pattern.
 - **Transfer amount validation**: The current implementation validates against the displayed balance, but doesn't account for pending transfers that may have reduced the actual available balance.
-- **In-memory cache**: The transfer account data cache in `transfers.server.ts` lives in server memory. In a production multi-instance deployment, this would need a shared store (Redis, database) or the API would need to return correct data.
+- **In-memory cache**: The transfer account data cache in `transfers.server.ts` lives in server memory. This is acceptable for a single-server dev environment where the workaround exists solely to patch incorrect API responses — production use would require a shared store (Redis, database) or a corrected API.
 - **Animation and transitions**: State changes (form to result, dropdown open/close) happen instantly. Svelte's built-in transitions would make these feel more polished.
