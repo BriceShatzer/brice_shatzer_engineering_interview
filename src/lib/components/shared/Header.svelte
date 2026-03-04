@@ -1,27 +1,26 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	import { resolveRoute } from '$app/paths';
+	import { page } from '$app/state';
 	import logo from '$lib/assets/logo.svg';
 </script>
 
 <header class="header">
-	<a href={resolveRoute('/accounts')} class="logo" aria-label="NorthWind home">
+	<a href="/accounts" class="logo" aria-label="NorthWind home">
 		<img src={logo} alt="NorthWind" />
 	</a>
 	<nav aria-label="Main navigation">
 		<a
-			href={resolveRoute('/accounts')}
+			href="/accounts"
 			class="nav-link"
-			class:active={$page.url.pathname.startsWith('/accounts')}
-			aria-current={$page.url.pathname.startsWith('/accounts') ? 'page' : undefined}
+			class:active={page.url.pathname.startsWith('/accounts')}
+			aria-current={page.url.pathname.startsWith('/accounts') ? 'page' : undefined}
 		>
 			Accounts
 		</a>
 		<a
-			href={resolveRoute('/transfers')}
+			href="/transfers"
 			class="nav-link"
-			class:active={$page.url.pathname.startsWith('/transfers')}
-			aria-current={$page.url.pathname.startsWith('/transfers') ? 'page' : undefined}
+			class:active={page.url.pathname.startsWith('/transfers')}
+			aria-current={page.url.pathname.startsWith('/transfers') ? 'page' : undefined}
 		>
 			Transfers
 		</a>

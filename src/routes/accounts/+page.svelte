@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { resolveRoute } from '$app/paths';
 	import { accounts, totalBalance, activeAccountCount } from '$lib/stores/accounts';
 	import TotalBalanceCard from '$lib/components/accounts/TotalBalanceCard.svelte';
 	import AccountCard from '$lib/components/accounts/AccountCard.svelte';
@@ -18,7 +17,7 @@
 	{#if data.error}
 		<div class="error-banner" role="alert">
 			<p>Failed to load accounts: {data.error}</p>
-			<a href={resolveRoute('/accounts')}>Retry</a>
+			<a href="/accounts">Retry</a>
 		</div>
 	{:else}
 		<div class="content-grid">
