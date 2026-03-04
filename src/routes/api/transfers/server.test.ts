@@ -33,8 +33,18 @@ const transferRequest = {
 	direction: 'OUTBOUND',
 	reference_number: 'REF-1',
 	transfer_type: 'ACH',
-	source_account: { account_number: '111', account_holder_name: 'Jane', institution_name: 'Bank', routing_number: '021' },
-	destination_account: { account_number: '222', account_holder_name: 'Jane', institution_name: 'Bank', routing_number: '021' }
+	source_account: {
+		account_number: '111',
+		account_holder_name: 'Jane',
+		institution_name: 'Bank',
+		routing_number: '021'
+	},
+	destination_account: {
+		account_number: '222',
+		account_holder_name: 'Jane',
+		institution_name: 'Bank',
+		routing_number: '021'
+	}
 };
 
 const apiResponse = {
@@ -46,8 +56,18 @@ const apiResponse = {
 	description: 'Internal Transfer',
 	direction: 'OUTBOUND',
 	transfer_type: 'ACH',
-	source_account: { account_number: '', account_holder_name: '', institution_name: 'API Bank', routing_number: '000' },
-	destination_account: { account_number: '', account_holder_name: '', institution_name: 'API Bank', routing_number: '000' },
+	source_account: {
+		account_number: '',
+		account_holder_name: '',
+		institution_name: 'API Bank',
+		routing_number: '000'
+	},
+	destination_account: {
+		account_number: '',
+		account_holder_name: '',
+		institution_name: 'API Bank',
+		routing_number: '000'
+	},
 	initiated_date: '2024-12-14T00:00:00Z',
 	expected_completion_date: '2024-12-17T00:00:00Z',
 	fee: 0
@@ -83,7 +103,9 @@ describe('POST /api/transfers', () => {
 
 	it('should return the ApiError status and message on ApiError', async () => {
 		const ApiErrorClass = (await import('$lib/api')).ApiError;
-		mockInitiateTransfer.mockRejectedValue(new ApiErrorClass(422, 'Validation failed', 'VALIDATION_ERROR'));
+		mockInitiateTransfer.mockRejectedValue(
+			new ApiErrorClass(422, 'Validation failed', 'VALIDATION_ERROR')
+		);
 
 		const response = await POST({ request: makeRequest(transferRequest) } as never);
 
@@ -103,4 +125,3 @@ describe('POST /api/transfers', () => {
 		expect(body.error.message).toBe('Unexpected');
 	});
 });
-

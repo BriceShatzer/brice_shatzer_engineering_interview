@@ -46,7 +46,14 @@ describe('POST /api/transfers/validate', () => {
 		const invalidResult = {
 			validation: {
 				valid: false,
-				issues: [{ field: 'amount', code: 'TOO_LOW', message: 'Amount too low', severity: 'error' as const }],
+				issues: [
+					{
+						field: 'amount',
+						code: 'TOO_LOW',
+						message: 'Amount too low',
+						severity: 'error' as const
+					}
+				],
 				validation_time: '2024-12-14T00:00:00Z'
 			}
 		};

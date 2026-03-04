@@ -16,8 +16,20 @@ const mockBank: BankResponse = {
 		email: 'info@testbank.com'
 	},
 	routing_numbers: [
-		{ routing_number: '021000021', status: 'current', description: 'Primary', valid_for: ['ACH'], acquired_from: undefined },
-		{ routing_number: '011000015', status: 'legacy', description: 'Legacy', valid_for: ['ACH'], acquired_from: undefined }
+		{
+			routing_number: '021000021',
+			status: 'current',
+			description: 'Primary',
+			valid_for: ['ACH'],
+			acquired_from: undefined
+		},
+		{
+			routing_number: '011000015',
+			status: 'legacy',
+			description: 'Legacy',
+			valid_for: ['ACH'],
+			acquired_from: undefined
+		}
 	],
 	services: {
 		ach_transfers: true,
@@ -60,4 +72,3 @@ describe('institutionName derived store', () => {
 		expect(get(institutionName)).toBe('Test Bank');
 	});
 });
-

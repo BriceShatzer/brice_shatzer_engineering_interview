@@ -7,4 +7,10 @@ export {
 	formatDate,
 	formatFullDate
 } from './format';
-export { getDisplayName, getTypeBadgeLabel, getStatusLabel, isTransferable, isActive } from './accounts';
+export {
+	getDisplayName,
+	getTypeBadgeLabel,
+	getStatusLabel,
+	isTransferable,
+	isActive
+} from './accounts';

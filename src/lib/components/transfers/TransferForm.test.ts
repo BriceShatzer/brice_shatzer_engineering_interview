@@ -130,7 +130,12 @@ describe('TransferForm – submission and validation', () => {
 	it('shows error and blocks submit when amount exceeds source balance', async () => {
 		const broke = makeAccount({ account_id: 'a1', balance: 100 });
 		const { getByRole, getByText, component } = render(TransferForm, {
-			props: { accounts: [broke, acc2], sourceAccount: broke, destinationAccount: acc2, amount: 500 }
+			props: {
+				accounts: [broke, acc2],
+				sourceAccount: broke,
+				destinationAccount: acc2,
+				amount: 500
+			}
 		});
 		const handler = vi.fn();
 		component.$on('submit', handler);
@@ -153,7 +158,12 @@ describe('TransferForm – submission and validation', () => {
 	it('clears amount error when user updates the input after a validation failure', async () => {
 		const broke = makeAccount({ account_id: 'a1', balance: 100 });
 		const { getByRole, getByPlaceholderText, queryByText } = render(TransferForm, {
-			props: { accounts: [broke, acc2], sourceAccount: broke, destinationAccount: acc2, amount: 500 }
+			props: {
+				accounts: [broke, acc2],
+				sourceAccount: broke,
+				destinationAccount: acc2,
+				amount: 500
+			}
 		});
 		await fireEvent.click(getByRole('button', { name: /Complete transfer/i }));
 		const input = getByPlaceholderText('0.00') as HTMLInputElement;

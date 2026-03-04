@@ -3,8 +3,8 @@ import { mockActivity } from '$lib/data/mockActivity';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = () => {
-	const oldestDate = mockActivity.reduce((oldest, item) =>
-		new Date(item.date) < new Date(oldest) ? item.date : oldest,
+	const oldestDate = mockActivity.reduce(
+		(oldest, item) => (new Date(item.date) < new Date(oldest) ? item.date : oldest),
 		mockActivity[0].date
 	);
 

@@ -46,7 +46,8 @@
 		// Note: the checks that are noted below are defensive. $:canSubmit already prevents
 		// submission when these fields are invalid, but these guard against programmatic calls.
 
-		if (!sourceAccount) { // defensive
+		if (!sourceAccount) {
+			// defensive
 			newErrors.source = 'Please select a source account';
 		} else if (!isActive(sourceAccount)) {
 			newErrors.source = 'Source account is not active';
@@ -54,7 +55,8 @@
 			newErrors.source = 'Transfers are not available from CD accounts';
 		}
 
-		if (!destinationAccount) { // defensive
+		if (!destinationAccount) {
+			// defensive
 			newErrors.destination = 'Please select a destination account';
 		} else if (!isActive(destinationAccount)) {
 			newErrors.destination = 'Destination account is not active';
@@ -68,7 +70,8 @@
 			newErrors.destination = 'Cannot transfer to the same account';
 		}
 
-		if (amount <= 0) { // defensive
+		if (amount <= 0) {
+			// defensive
 			newErrors.amount = 'Please enter an amount greater than $0';
 		} else if (sourceAccount && amount > sourceAccount.balance) {
 			newErrors.amount = `Amount exceeds available balance of $${sourceAccount.balance.toFixed(2)}`;

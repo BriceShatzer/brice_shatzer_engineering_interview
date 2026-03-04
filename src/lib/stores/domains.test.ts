@@ -46,5 +46,3 @@ describe('domains store', () => {
 		expect(get(domains)).toEqual(mockDomains);
 	});
 });
-
-

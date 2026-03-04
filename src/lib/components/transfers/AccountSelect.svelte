@@ -1,7 +1,13 @@
 <script lang="ts">
 	import { createEventDispatcher, onMount } from 'svelte';
 	import type { AccountSummary } from '$lib/types';
-	import { getDisplayName, getStatusLabel, isActive, formatCurrency, maskAccountNumber } from '$lib/utils';
+	import {
+		getDisplayName,
+		getStatusLabel,
+		isActive,
+		formatCurrency,
+		maskAccountNumber
+	} from '$lib/utils';
 
 	export let accounts: AccountSummary[] = [];
 	export let selected: AccountSummary | null = null;
@@ -19,9 +25,10 @@
 
 	$: listboxId = `${id}-listbox`;
 	$: filteredAccounts = accounts;
-	$: activeDescendantId = open && focusedIndex >= 0 && focusedIndex < filteredAccounts.length
-		? `${id}-option-${filteredAccounts[focusedIndex].account_id}`
-		: undefined;
+	$: activeDescendantId =
+		open && focusedIndex >= 0 && focusedIndex < filteredAccounts.length
+			? `${id}-option-${filteredAccounts[focusedIndex].account_id}`
+			: undefined;
 	$: selectedLabel = selected
 		? `${getDisplayName(selected)}...${selected.account_number.slice(-4)}`
 		: 'Choose account';

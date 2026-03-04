@@ -16,7 +16,7 @@
 		'shopping-cart': shoppingCartIcon,
 		'money-bag': moneyBagIcon,
 		'hot-beverage': hotBeverageIcon,
-		'briefcase': briefcaseIcon,
+		briefcase: briefcaseIcon
 	};
 
 	$: iconSrc = iconMap[icon] ?? bankIcon;

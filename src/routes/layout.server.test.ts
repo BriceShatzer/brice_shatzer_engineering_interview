@@ -27,14 +27,35 @@ const mockAccounts = [
 ];
 
 const mockDomainsData = {
-	account_types: [], account_statuses: [], transfer_types: [], directions: [],
-	integration_statuses: [], transaction_types: [], transaction_statuses: [],
-	transfer_statuses: [], external_transfer_statuses: []
+	account_types: [],
+	account_statuses: [],
+	transfer_types: [],
+	directions: [],
+	integration_statuses: [],
+	transaction_types: [],
+	transaction_statuses: [],
+	transfer_statuses: [],
+	external_transfer_statuses: []
 };
 const mockBankData = {
-	institution: { name: 'Test Bank', established: '', address: '', city: '', state: '', zip_code: '', website: '', phone: '', email: '' },
+	institution: {
+		name: 'Test Bank',
+		established: '',
+		address: '',
+		city: '',
+		state: '',
+		zip_code: '',
+		website: '',
+		phone: '',
+		email: ''
+	},
 	routing_numbers: [],
-	services: { ach_transfers: true, wire_transfers: true, check_processing: false, mobile_banking: true },
+	services: {
+		ach_transfers: true,
+		wire_transfers: true,
+		check_processing: false,
+		mobile_banking: true
+	},
 	business_hours: { customer_service: '', wire_cutoff: '' }
 };
 
@@ -51,11 +72,14 @@ describe('layout server load', () => {
 	});
 
 	it('should return accounts, domains, and bank data on success', async () => {
-		mockFetchAccounts.mockResolvedValue({ accounts: mockAccounts, pagination: { total: 1, page: 1, per_page: 10 } });
+		mockFetchAccounts.mockResolvedValue({
+			accounts: mockAccounts,
+			pagination: { total: 1, page: 1, per_page: 10 }
+		});
 		mockFetchDomains.mockResolvedValue(mockDomainsData);
 		mockFetchBank.mockResolvedValue(mockBankData);
 
-		const result = await load({} as any) as Record<string, any>;
+		const result = (await load({} as any)) as Record<string, any>;
 
 		expect(result.accounts).toEqual(mockAccounts);
 		expect(result.domains).toEqual(mockDomainsData);
@@ -63,22 +87,28 @@ describe('layout server load', () => {
 	});
 
 	it('should return null for domains when fetchDomains fails', async () => {
-		mockFetchAccounts.mockResolvedValue({ accounts: mockAccounts, pagination: { total: 1, page: 1, per_page: 10 } });
+		mockFetchAccounts.mockResolvedValue({
+			accounts: mockAccounts,
+			pagination: { total: 1, page: 1, per_page: 10 }
+		});
 		mockFetchDomains.mockRejectedValue(new Error('Network error'));
 		mockFetchBank.mockResolvedValue(mockBankData);
 
-		const result = await load({} as any) as Record<string, any>;
+		const result = (await load({} as any)) as Record<string, any>;
 
 		expect(result.domains).toBeNull();
 		expect(result.accounts).toEqual(mockAccounts);
 	});
 
 	it('should return null for bank when fetchBank fails', async () => {
-		mockFetchAccounts.mockResolvedValue({ accounts: mockAccounts, pagination: { total: 1, page: 1, per_page: 10 } });
+		mockFetchAccounts.mockResolvedValue({
+			accounts: mockAccounts,
+			pagination: { total: 1, page: 1, per_page: 10 }
+		});
 		mockFetchDomains.mockResolvedValue(mockDomainsData);
 		mockFetchBank.mockRejectedValue(new Error('Network error'));
 
-		const result = await load({} as any) as Record<string, any>;
+		const result = (await load({} as any)) as Record<string, any>;
 
 		expect(result.bank).toBeNull();
 	});
@@ -88,7 +118,7 @@ describe('layout server load', () => {
 		mockFetchDomains.mockResolvedValue(mockDomainsData);
 		mockFetchBank.mockResolvedValue(mockBankData);
 
-		const result = await load({} as any) as Record<string, any>;
+		const result = (await load({} as any)) as Record<string, any>;
 
 		expect(result.accounts).toEqual([]);
 		expect((result as { error?: string }).error).toBe('API down');

@@ -3,4 +3,7 @@ import type { BankResponse } from '$lib/types';
 
 export const bank = writable<BankResponse | null>(null);
 
-export const institutionName = derived(bank, ($bank) => $bank?.institution.name ?? 'Northwind Bank');
+export const institutionName = derived(
+	bank,
+	($bank) => $bank?.institution.name ?? 'Northwind Bank'
+);

@@ -4,7 +4,9 @@ import TransactionItem from './TransactionItem.svelte';
 
 describe('TransactionItem', () => {
 	it('should render the title and meta text', () => {
-		render(TransactionItem, { props: { title: 'Grocery Store', meta: 'Dec 14 · Everyday Checking', amount: -82.45 } });
+		render(TransactionItem, {
+			props: { title: 'Grocery Store', meta: 'Dec 14 · Everyday Checking', amount: -82.45 }
+		});
 		expect(screen.getByText('Grocery Store')).toBeInTheDocument();
 		expect(screen.getByText('Dec 14 · Everyday Checking')).toBeInTheDocument();
 	});

@@ -32,20 +32,19 @@
 		left: 0;
 		right: 0;
 		height: 3px;
-		background: linear-gradient(
-			90deg,
-			transparent,
-			var(--c-blue),
-			transparent
-		);
+		background: linear-gradient(90deg, transparent, var(--c-blue), transparent);
 		background-size: 200% 100%;
 		animation: nav-progress 1.2s ease-in-out infinite;
 		z-index: 9999;
 	}
 
 	@keyframes nav-progress {
-		0% { background-position: 200% 0; }
-		100% { background-position: -200% 0; }
+		0% {
+			background-position: 200% 0;
+		}
+		100% {
+			background-position: -200% 0;
+		}
 	}
 
 	.app-background {

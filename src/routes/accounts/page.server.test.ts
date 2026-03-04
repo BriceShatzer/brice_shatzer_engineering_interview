@@ -6,9 +6,30 @@ vi.mock('$lib/api', () => ({
 
 vi.mock('$lib/data/mockActivity', () => ({
 	mockActivity: [
-		{ id: '1', description: 'Recent', date: '2025-12-14T10:30:00Z', accountName: 'Checking', amount: -10, icon: 'x' },
-		{ id: '2', description: 'Middle', date: '2025-12-10T00:00:00Z', accountName: 'Checking', amount: -5, icon: 'x' },
-		{ id: '3', description: 'Oldest', date: '2025-12-01T08:00:00Z', accountName: 'Savings', amount: 5, icon: 'x' }
+		{
+			id: '1',
+			description: 'Recent',
+			date: '2025-12-14T10:30:00Z',
+			accountName: 'Checking',
+			amount: -10,
+			icon: 'x'
+		},
+		{
+			id: '2',
+			description: 'Middle',
+			date: '2025-12-10T00:00:00Z',
+			accountName: 'Checking',
+			amount: -5,
+			icon: 'x'
+		},
+		{
+			id: '3',
+			description: 'Oldest',
+			date: '2025-12-01T08:00:00Z',
+			accountName: 'Savings',
+			amount: 5,
+			icon: 'x'
+		}
 	]
 }));
 
@@ -30,8 +51,18 @@ const mockTransfer = {
 	initiated_date: '2025-12-14T00:00:00Z',
 	processing_date: '2025-12-15T00:00:00Z',
 	expected_completion_date: '2025-12-17T00:00:00Z',
-	source_account: { account_number: '111', account_holder_name: 'Jane', institution_name: 'Bank', routing_number: '021' },
-	destination_account: { account_number: '222', account_holder_name: 'Jane', institution_name: 'Bank', routing_number: '021' }
+	source_account: {
+		account_number: '111',
+		account_holder_name: 'Jane',
+		institution_name: 'Bank',
+		routing_number: '021'
+	},
+	destination_account: {
+		account_number: '222',
+		account_holder_name: 'Jane',
+		institution_name: 'Bank',
+		routing_number: '021'
+	}
 };
 
 describe('accounts page server load', () => {
@@ -46,9 +77,12 @@ describe('accounts page server load', () => {
 	});
 
 	it('returns transfers from the API on success', async () => {
-		mockFetch.mockResolvedValue({ transfers: [mockTransfer], pagination: { total: 1, page: 1, per_page: 10 } });
+		mockFetch.mockResolvedValue({
+			transfers: [mockTransfer],
+			pagination: { total: 1, page: 1, per_page: 10 }
+		});
 
-		const result = await load({} as any) as Record<string, any>;
+		const result = (await load({} as any)) as Record<string, any>;
 		const transfers = await result.transfers;
 
 		expect(transfers).toHaveLength(1);
@@ -58,7 +92,7 @@ describe('accounts page server load', () => {
 	it('returns empty transfers array on API failure', async () => {
 		mockFetch.mockRejectedValue(new Error('Network error'));
 
-		const result = await load({} as any) as Record<string, any>;
+		const result = (await load({} as any)) as Record<string, any>;
 		const transfers = await result.transfers;
 
 		expect(transfers).toEqual([]);
@@ -95,7 +129,7 @@ describe('accounts page server load', () => {
 		const error = new Error('Something failed');
 		mockFetch.mockRejectedValue(error);
 
-		const result = await load({} as any) as Record<string, any>;
+		const result = (await load({} as any)) as Record<string, any>;
 		await result.transfers;
 
 		expect(console.error).toHaveBeenCalledWith('Failed to load transfers for activity:', error);

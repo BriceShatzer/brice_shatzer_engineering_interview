@@ -219,13 +219,13 @@ npm run test:coverage
 
 **21 test files, 166 tests, all passing.** Coverage spans utilities, stores, API layer, route loaders, and components.
 
-| Layer      | Files                                                                          |
-| ---------- | ------------------------------------------------------------------------------ |
-| Utilities  | `format.test.ts` (20), `accounts.test.ts` (16)                                |
-| Stores     | `accounts.test.ts` (10), `bank.test.ts` (4), `domains.test.ts` (2)            |
-| API        | `client.server.test.ts` (10), `transfers.server.test.ts` (6)                  |
-| Routes     | `layout.server` (4), `accounts/page.server` (5), `transfers/page.server` (3), `error` (6) |
-| API routes | `api/transfers/server` (4), `api/transfers/validate/server` (4)               |
+| Layer      | Files                                                                                                                                                                   |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Utilities  | `format.test.ts` (20), `accounts.test.ts` (16)                                                                                                                          |
+| Stores     | `accounts.test.ts` (10), `bank.test.ts` (4), `domains.test.ts` (2)                                                                                                      |
+| API        | `client.server.test.ts` (10), `transfers.server.test.ts` (6)                                                                                                            |
+| Routes     | `layout.server` (4), `accounts/page.server` (5), `transfers/page.server` (3), `error` (6)                                                                               |
+| API routes | `api/transfers/server` (4), `api/transfers/validate/server` (4)                                                                                                         |
 | Components | `AccountSelect` (18), `TransferForm` (15), `TransferResult` (10), `TransferSummary` (7), `AccountCard` (7), `Header` (6), `TransactionItem` (5), `TotalBalanceCard` (4) |
 
 ### Notable Testing Patterns
@@ -255,7 +255,7 @@ The `$app/stores` mock exposes writable `page` and `navigating` stores. Tests ca
 - **Keyboard navigation**: AccountSelect supports Arrow keys, Enter, Space, Escape, and Tab. Focus returns to the trigger after selection or dismissal
 - **Focus management**: On the transfer result screen, focus is programmatically moved to the heading (`tabindex="-1"` + `focus()`) so screen readers announce the outcome immediately
 - **Visible focus styles**: All interactive elements (buttons, links, inputs, the custom dropdown trigger) have `:focus-visible` outlines with consistent `2px solid` styling and `outline-offset`
-- **Distinct labels**: The amount input uses its own "Amount" label rather than sharing the "Transfer to" label with the destination dropdown *<strong>as is erroneously shown in the design</strong>*, ensuring each form control has a unique accessible name
+- **Distinct labels**: The amount input uses its own "Amount" label rather than sharing the "Transfer to" label with the destination dropdown _<strong>as is erroneously shown in the design</strong>_, ensuring each form control has a unique accessible name
 - **Decorative images**: Icon images in transaction items use `alt=""` and `aria-hidden="true"` to avoid cluttering screen reader output
 
 ---
@@ -269,8 +269,7 @@ Two behaviors in the Northwind API required workarounds at the application level
 A successful POST to `/external/transfers/initiate` returns a `source_account` with empty `account_number` and `account_holder_name` fields. It also appears to swap the source and destination routing numbers. The app patches this at the API boundary (`/api/transfers/+server.ts`) by overlaying the correct data from the original request onto the response before returning it to the client.
 
 Additionally, the server caches the correct account data in memory (keyed by `transfer_id`) so that the transfer history list can display accurate values for any transfer the app initiated during the current session.  
-*Note: the cache resets on server restart, so older transfers will still fall back to "Unknown"*.  
-
+_Note: the cache resets on server restart, so older transfers will still fall back to "Unknown"_.
 
 ### Incorrect Account Data in Transfer History
 

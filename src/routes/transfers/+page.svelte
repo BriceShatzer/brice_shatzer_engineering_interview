@@ -1,7 +1,13 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
 	import { accounts, institutionName } from '$lib/stores';
-	import type { AccountSummary, RecentTransfer, TransferRequest, TransferStatusResponse, ValidationResponse } from '$lib/types';
+	import type {
+		AccountSummary,
+		RecentTransfer,
+		TransferRequest,
+		TransferStatusResponse,
+		ValidationResponse
+	} from '$lib/types';
 	import { getDisplayName, formatAccountLabel, formatDate } from '$lib/utils';
 	import TransferForm from '$lib/components/transfers/TransferForm.svelte';
 	import TransferSummary from '$lib/components/transfers/TransferSummary.svelte';
@@ -16,31 +22,31 @@
 		return match ? getDisplayName(match) : null;
 	}
 
-	$: recentTransfers = [...(data.transfers ?? [])].sort((a, b) =>
-		new Date(b.initiated_date).getTime() - new Date(a.initiated_date).getTime()
-	).map((t): RecentTransfer => {
-		let toAccountName: string;
-		let fromDescription: string;
+	$: recentTransfers = [...(data.transfers ?? [])]
+		.sort((a, b) => new Date(b.initiated_date).getTime() - new Date(a.initiated_date).getTime())
+		.map((t): RecentTransfer => {
+			let toAccountName: string;
+			let fromDescription: string;
 
-		if (t.description?.startsWith('Internal Transfer |')) {
-			const fromMatch = t.description.match(/from:\s*(\S+)/);
-			const toMatch = t.description.match(/to:\s*(\S+)/);
-			fromDescription = `From ${(fromMatch && resolveAccountName(fromMatch[1])) ?? 'Unknown'}`;
-			toAccountName = `To ${(toMatch && resolveAccountName(toMatch[1])) ?? 'Unknown'}`;
-		} else {
-			toAccountName = `To ${resolveAccountName(t.destination_account.account_number) ?? t.destination_account.institution_name ?? 'Unknown'}`;
-			fromDescription = `From ${resolveAccountName(t.source_account.account_number) ?? t.source_account.institution_name ?? 'Unknown'}`;
-		}
+			if (t.description?.startsWith('Internal Transfer |')) {
+				const fromMatch = t.description.match(/from:\s*(\S+)/);
+				const toMatch = t.description.match(/to:\s*(\S+)/);
+				fromDescription = `From ${(fromMatch && resolveAccountName(fromMatch[1])) ?? 'Unknown'}`;
+				toAccountName = `To ${(toMatch && resolveAccountName(toMatch[1])) ?? 'Unknown'}`;
+			} else {
+				toAccountName = `To ${resolveAccountName(t.destination_account.account_number) ?? t.destination_account.institution_name ?? 'Unknown'}`;
+				fromDescription = `From ${resolveAccountName(t.source_account.account_number) ?? t.source_account.institution_name ?? 'Unknown'}`;
+			}
 
-		return {
-			id: t.transfer_id,
-			toAccountName,
-			date: formatDate(t.initiated_date),
-			fromDescription,
-			amount: t.direction === 'OUTBOUND' ? -t.amount : t.amount,
-			icon: 'bank'
-		};
-	});
+			return {
+				id: t.transfer_id,
+				toAccountName,
+				date: formatDate(t.initiated_date),
+				fromDescription,
+				amount: t.direction === 'OUTBOUND' ? -t.amount : t.amount,
+				icon: 'bank'
+			};
+		});
 
 	type ViewState =
 		| { kind: 'form' }
@@ -68,7 +74,7 @@
 		const transferRequest: TransferRequest = {
 			amount: transferAmount,
 			currency: 'USD',
-			description: `Internal Transfer | from: ${source.account_number} | to: ${destination.account_number}`, // `Transfer from ${getDisplayName(source)} to ${getDisplayName(destination)}` 
+			description: `Internal Transfer | from: ${source.account_number} | to: ${destination.account_number}`, // `Transfer from ${getDisplayName(source)} to ${getDisplayName(destination)}`
 			direction: 'OUTBOUND',
 			transfer_type: 'ACH',
 			reference_number: `REF-${Date.now()}`,
@@ -96,7 +102,9 @@
 
 			if (!validateResponse.ok) {
 				const errorBody = await validateResponse.json().catch(() => null);
-				throw new Error(errorBody?.error?.message ?? `Validation failed (${validateResponse.status})`);
+				throw new Error(
+					errorBody?.error?.message ?? `Validation failed (${validateResponse.status})`
+				);
 			}
 
 			const validation: ValidationResponse = await validateResponse.json();
@@ -180,7 +188,11 @@
 					<p class="card-subtitle">Quick reference of your latest internal transfers.</p>
 					<div class="transfer-list">
 						{#each recentTransfers as item (item.id)}
-							<TransactionItem title={item.toAccountName} meta="{item.date} · {item.fromDescription}" amount={item.amount} />
+							<TransactionItem
+								title={item.toAccountName}
+								meta="{item.date} · {item.fromDescription}"
+								amount={item.amount}
+							/>
 						{/each}
 					</div>
 				</section>

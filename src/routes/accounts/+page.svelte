@@ -22,18 +22,22 @@
 			if (t.description?.startsWith('Internal Transfer |')) {
 				const fromMatch = t.description.match(/from:\s*(\S+)/);
 				const toMatch = t.description.match(/to:\s*(\S+)/);
-				accountName = t.direction === 'OUTBOUND'
-					? `${(fromMatch && resolveAccountName(fromMatch[1])) ?? 'Unknown'}`
-					: `${(toMatch && resolveAccountName(toMatch[1])) ?? 'Unknown'}`;
+				accountName =
+					t.direction === 'OUTBOUND'
+						? `${(fromMatch && resolveAccountName(fromMatch[1])) ?? 'Unknown'}`
+						: `${(toMatch && resolveAccountName(toMatch[1])) ?? 'Unknown'}`;
 			} else {
-				accountName = t.direction === 'OUTBOUND'
-					? t.destination_account.account_holder_name
-					: t.source_account.account_holder_name;
+				accountName =
+					t.direction === 'OUTBOUND'
+						? t.destination_account.account_holder_name
+						: t.source_account.account_holder_name;
 			}
 
 			return {
 				id: t.transfer_id,
-				description: t.description.startsWith('Internal Transfer | ') ? 'Internal Transfer' : t.description,
+				description: t.description.startsWith('Internal Transfer | ')
+					? 'Internal Transfer'
+					: t.description,
 				date: t.initiated_date,
 				accountName,
 				amount: t.direction === 'OUTBOUND' ? -t.amount : t.amount,
@@ -41,8 +45,8 @@
 			};
 		});
 
-		return [...mockActivity, ...transferActivity].sort((a, b) =>
-			new Date(b.date).getTime() - new Date(a.date).getTime()
+		return [...mockActivity, ...transferActivity].sort(
+			(a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
 		);
 	}
 </script>
@@ -83,7 +87,12 @@
 							{/each}
 						{:then transfers}
 							{#each buildActivity(transfers) as item (item.id)}
-								<TransactionItem title={item.description} meta="{formatDate(item.date)} · {item.accountName}" amount={item.amount} icon={item.icon} />
+								<TransactionItem
+									title={item.description}
+									meta="{formatDate(item.date)} · {item.accountName}"
+									amount={item.amount}
+									icon={item.icon}
+								/>
 							{/each}
 						{/await}
 					</div>
@@ -158,8 +167,12 @@
 	}
 
 	@keyframes skeleton-shimmer {
-		0% { background-position: 200% 0; }
-		100% { background-position: -200% 0; }
+		0% {
+			background-position: 200% 0;
+		}
+		100% {
+			background-position: -200% 0;
+		}
 	}
 
 	.error-banner {

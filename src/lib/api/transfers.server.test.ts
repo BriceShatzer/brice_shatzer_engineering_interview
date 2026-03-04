@@ -1,5 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { cacheTransferAccountData, fetchTransfers, initiateTransfer, validateTransfer } from './transfers.server';
+import {
+	cacheTransferAccountData,
+	fetchTransfers,
+	initiateTransfer,
+	validateTransfer
+} from './transfers.server';
 import type { TransferAccountDetails, TransferListResponse, TransferRequest } from '$lib/types';
 
 vi.mock('./client.server', () => ({
@@ -47,8 +52,18 @@ const makeTransfer = (overrides = {}) => ({
 	initiated_date: '2024-12-14T00:00:00Z',
 	processing_date: '2024-12-15T00:00:00Z',
 	expected_completion_date: '2024-12-17T00:00:00Z',
-	source_account: { account_number: '', account_holder_name: '', institution_name: 'API Bank', routing_number: '000000000' },
-	destination_account: { account_number: '', account_holder_name: '', institution_name: 'API Bank', routing_number: '000000000' },
+	source_account: {
+		account_number: '',
+		account_holder_name: '',
+		institution_name: 'API Bank',
+		routing_number: '000000000'
+	},
+	destination_account: {
+		account_number: '',
+		account_holder_name: '',
+		institution_name: 'API Bank',
+		routing_number: '000000000'
+	},
 	...overrides
 });
 
@@ -126,7 +141,15 @@ describe('validateTransfer', () => {
 	});
 
 	it('should return the validation response', async () => {
-		const validationResult = { validation: { valid: false, issues: [{ field: 'amount', code: 'TOO_LOW', message: 'Too low', severity: 'error' as const }], validation_time: '' } };
+		const validationResult = {
+			validation: {
+				valid: false,
+				issues: [
+					{ field: 'amount', code: 'TOO_LOW', message: 'Too low', severity: 'error' as const }
+				],
+				validation_time: ''
+			}
+		};
 		mockApiPost.mockResolvedValue(validationResult);
 		const result = await validateTransfer({} as TransferRequest);
 		expect(result.validation.valid).toBe(false);

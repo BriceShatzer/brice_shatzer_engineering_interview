@@ -1,7 +1,13 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { get } from 'svelte/store';
 import { domains } from '$lib/stores';
-import { getDisplayName, getTypeBadgeLabel, getStatusLabel, isTransferable, isActive } from './accounts';
+import {
+	getDisplayName,
+	getTypeBadgeLabel,
+	getStatusLabel,
+	isTransferable,
+	isActive
+} from './accounts';
 import type { AccountSummary, DomainsResponse } from '$lib/types';
 
 const baseAccount: AccountSummary = {
