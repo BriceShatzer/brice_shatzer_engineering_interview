@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { page } from '$app/state';
+	import { page } from '$app/stores';
 	import logo from '$lib/assets/logo.svg';
 </script>
 
@@ -11,16 +11,16 @@
 		<a
 			href="/accounts"
 			class="nav-link"
-			class:active={page.url.pathname.startsWith('/accounts')}
-			aria-current={page.url.pathname.startsWith('/accounts') ? 'page' : undefined}
+			class:active={$page.url.pathname.startsWith('/accounts')}
+			aria-current={$page.url.pathname.startsWith('/accounts') ? 'page' : undefined}
 		>
 			Accounts
 		</a>
 		<a
 			href="/transfers"
 			class="nav-link"
-			class:active={page.url.pathname.startsWith('/transfers')}
-			aria-current={page.url.pathname.startsWith('/transfers') ? 'page' : undefined}
+			class:active={$page.url.pathname.startsWith('/transfers')}
+			aria-current={$page.url.pathname.startsWith('/transfers') ? 'page' : undefined}
 		>
 			Transfers
 		</a>
