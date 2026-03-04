@@ -14,7 +14,6 @@
 <style>
 	.balance-card {
 		background-color: var(--c-blue);
-		/* background: linear-gradient(135deg, var(--c-blue) 0%, var(--c-blue-dark) 100%); */
 		border-radius: var(--radius-xl);
 		padding: var(--s-5) var(--s-6);
 		color: var(--c-white);

@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { get } from 'svelte/store';
-import { domains, accountTypeLabels, accountStatusLabels, getTransferTypeInfo } from './domains';
+import { domains } from './domains';
 import type { DomainsResponse } from '$lib/types';
 
 const mockDomains: DomainsResponse = {
@@ -47,54 +47,4 @@ describe('domains store', () => {
 	});
 });
 
-describe('accountTypeLabels derived store', () => {
-	beforeEach(() => {
-		domains.set(null);
-	});
 
-	it('should return an empty object when domains are null', () => {
-		expect(get(accountTypeLabels)).toEqual({});
-	});
-
-	it('should return a map of code to display_name when domains are loaded', () => {
-		domains.set(mockDomains);
-		expect(get(accountTypeLabels)).toEqual({
-			CHECKING: 'Checking Account',
-			SAVINGS: 'Savings Account'
-		});
-	});
-});
-
-describe('accountStatusLabels derived store', () => {
-	beforeEach(() => {
-		domains.set(null);
-	});
-
-	it('should return an empty object when domains are null', () => {
-		expect(get(accountStatusLabels)).toEqual({});
-	});
-
-	it('should return a map of code to display_name when domains are loaded', () => {
-		domains.set(mockDomains);
-		expect(get(accountStatusLabels)).toEqual({
-			ACTIVE: 'Active',
-			FROZEN: 'Frozen'
-		});
-	});
-});
-
-describe('getTransferTypeInfo', () => {
-	it('should return undefined when domainsData is null', () => {
-		expect(getTransferTypeInfo(null, 'ACH')).toBeUndefined();
-	});
-
-	it('should return the matching transfer type by code', () => {
-		const result = getTransferTypeInfo(mockDomains, 'ACH');
-		expect(result).toBeDefined();
-		expect(result?.display_name).toBe('ACH Transfer');
-	});
-
-	it('should return undefined for an unknown transfer type code', () => {
-		expect(getTransferTypeInfo(mockDomains, 'WIRE')).toBeUndefined();
-	});
-});

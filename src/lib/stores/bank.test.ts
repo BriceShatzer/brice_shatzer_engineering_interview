@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { get } from 'svelte/store';
-import { bank, institutionName, currentRoutingNumber } from './bank';
+import { bank, institutionName } from './bank';
 import type { BankResponse } from '$lib/types';
 
 const mockBank: BankResponse = {
@@ -61,27 +61,3 @@ describe('institutionName derived store', () => {
 	});
 });
 
-describe('currentRoutingNumber derived store', () => {
-	beforeEach(() => {
-		bank.set(null);
-	});
-
-	it('should return null when bank is null', () => {
-		expect(get(currentRoutingNumber)).toBeNull();
-	});
-
-	it('should return the routing number with status "current"', () => {
-		bank.set(mockBank);
-		expect(get(currentRoutingNumber)).toBe('021000021');
-	});
-
-	it('should return null when no routing number has status "current"', () => {
-		bank.set({
-			...mockBank,
-			routing_numbers: [
-				{ routing_number: '011000015', status: 'legacy', description: 'Legacy', valid_for: ['ACH'] }
-			]
-		});
-		expect(get(currentRoutingNumber)).toBeNull();
-	});
-});

@@ -76,7 +76,7 @@ Svelte stores handle reactive state:
 - **`accounts`** (writable): the account list, set from server data
 - **`totalBalance`** / **`activeAccountCount`** (derived): computed from `accounts`, automatically recalculate when the account list changes
 - **`bank`** (writable): institution info; **`institutionName`** / **`currentRoutingNumber`** (derived)
-- **`domains`** (writable): reference data; **`accountTypeLabels`** / **`accountStatusLabels`** (derived)
+- **`domains`** (writable): reference data (account types, statuses, transfer types)
 
 After a successful transfer, `invalidateAll()` re-runs all active load functions, which refreshes the stores with current data from the API.
 
@@ -155,7 +155,7 @@ src/
 │   ├── stores/                       # Svelte writable + derived stores
 │   │   ├── accounts.ts              # accounts, totalBalance, activeAccountCount
 │   │   ├── bank.ts                  # bank, institutionName, currentRoutingNumber
-│   │   ├── domains.ts              # domains, accountTypeLabels, accountStatusLabels
+│   │   ├── domains.ts              # domains
 │   │   └── index.ts
 │   │
 │   ├── utils/
@@ -217,12 +217,12 @@ npm run test:coverage
 
 ### Current Coverage
 
-**20 test files, 170 tests, all passing.** Coverage spans utilities, stores, API layer, route loaders, and components.
+**20 test files, 160 tests, all passing.** Coverage spans utilities, stores, API layer, route loaders, and components.
 
 | Layer      | Files                                                                          |
 | ---------- | ------------------------------------------------------------------------------ |
 | Utilities  | `format.test.ts` (20), `accounts.test.ts` (16)                                |
-| Stores     | `accounts.test.ts` (10), `bank.test.ts` (7), `domains.test.ts` (9)            |
+| Stores     | `accounts.test.ts` (10), `bank.test.ts` (4), `domains.test.ts` (2)            |
 | API        | `client.server.test.ts` (10), `transfers.server.test.ts` (6)                  |
 | Routes     | `layout.server` (4), `accounts/page.server` (5), `transfers/page.server` (3)  |
 | API routes | `api/transfers/server` (4), `api/transfers/validate/server` (4)               |
@@ -295,5 +295,4 @@ On both the transfers page and accounts activity feed, if a transfer's descripti
 - **Loading states**: There are no skeleton screens or loading indicators during initial data fetch. On slow connections the page appears blank until the server load resolves.
 - **Transfer amount validation**: The current implementation validates against the displayed balance, but doesn't account for pending transfers that may have reduced the actual available balance.
 - **In-memory cache**: The transfer account data cache in `transfers.server.ts` lives in server memory. In a production multi-instance deployment, this would need a shared store (Redis, database) or the API would need to return correct data.
-- **Responsive design**: Basic responsive breakpoints are in place (single-column at 768px), but the layout hasn't been thoroughly tested across device sizes. The custom dropdown in particular could benefit from mobile-specific interaction patterns.
 - **Animation and transitions**: State changes (form to result, dropdown open/close) happen instantly. Svelte's built-in transitions would make these feel more polished.

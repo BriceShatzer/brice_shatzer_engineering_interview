@@ -15,7 +15,6 @@ export const load: PageServerLoad = async () => {
 
 	try {
 		const transfersData = await fetchTransfersByDateRange(dateFrom, dateTo);
-		console.log( transfersData )
 		return { transfers: transfersData.transfers };
 	} catch (e) {
 		console.error('Failed to load transfers for activity:', e);
