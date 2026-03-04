@@ -2,7 +2,7 @@ import { fetchTransfersByDateRange } from '$lib/api';
 import { mockActivity } from '$lib/data/mockActivity';
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = () => {
 	const oldestDate = mockActivity.reduce((oldest, item) =>
 		new Date(item.date) < new Date(oldest) ? item.date : oldest,
 		mockActivity[0].date
@@ -13,11 +13,12 @@ export const load: PageServerLoad = async () => {
 	tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
 	const dateTo = tomorrow.toISOString().slice(0, 10);
 
-	try {
-		const transfersData = await fetchTransfersByDateRange(dateFrom, dateTo);
-		return { transfers: transfersData.transfers };
-	} catch (e) {
-		console.error('Failed to load transfers for activity:', e);
-		return { transfers: [] };
-	}
+	const transfers = fetchTransfersByDateRange(dateFrom, dateTo)
+		.then((data) => data.transfers)
+		.catch((e) => {
+			console.error('Failed to load transfers for activity:', e);
+			return [];
+		});
+
+	return { transfers };
 };

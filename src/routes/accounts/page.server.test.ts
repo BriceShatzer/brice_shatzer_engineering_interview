@@ -49,17 +49,19 @@ describe('accounts page server load', () => {
 		mockFetch.mockResolvedValue({ transfers: [mockTransfer], pagination: { total: 1, page: 1, per_page: 10 } });
 
 		const result = await load({} as any) as Record<string, any>;
+		const transfers = await result.transfers;
 
-		expect(result.transfers).toHaveLength(1);
-		expect(result.transfers[0].transfer_id).toBe('txn-1');
+		expect(transfers).toHaveLength(1);
+		expect(transfers[0].transfer_id).toBe('txn-1');
 	});
 
 	it('returns empty transfers array on API failure', async () => {
 		mockFetch.mockRejectedValue(new Error('Network error'));
 
 		const result = await load({} as any) as Record<string, any>;
+		const transfers = await result.transfers;
 
-		expect(result.transfers).toEqual([]);
+		expect(transfers).toEqual([]);
 	});
 
 	it('calls fetchTransfersByDateRange with the oldest mock activity date as dateFrom', async () => {
@@ -93,7 +95,8 @@ describe('accounts page server load', () => {
 		const error = new Error('Something failed');
 		mockFetch.mockRejectedValue(error);
 
-		await load({} as any);
+		const result = await load({} as any) as Record<string, any>;
+		await result.transfers;
 
 		expect(console.error).toHaveBeenCalledWith('Failed to load transfers for activity:', error);
 	});

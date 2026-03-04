@@ -6,7 +6,7 @@
 	import { mockActivity } from '$lib/data/mockActivity';
 	import { formatDate, getDisplayName } from '$lib/utils';
 	import type { PageData } from './$types';
-	import type { ActivityItem } from '$lib/types';
+	import type { ActivityItem, TransferSummary } from '$lib/types';
 
 	export let data: PageData;
 
@@ -15,34 +15,36 @@
 		return match ? getDisplayName(match) : null;
 	}
 
-	$: transferActivity = data.transfers.map((t): ActivityItem => {
-		let accountName: string;
+	function buildActivity(transfers: TransferSummary[]): ActivityItem[] {
+		const transferActivity = transfers.map((t): ActivityItem => {
+			let accountName: string;
 
-		if (t.description?.startsWith('Internal Transfer |')) {
-			const fromMatch = t.description.match(/from:\s*(\S+)/);
-			const toMatch = t.description.match(/to:\s*(\S+)/);
-			accountName = t.direction === 'OUTBOUND'
-				? `${(fromMatch && resolveAccountName(fromMatch[1])) ?? 'Unknown'}`
-				: `${(toMatch && resolveAccountName(toMatch[1])) ?? 'Unknown'}`;
-		} else {
-			accountName = t.direction === 'OUTBOUND'
-				? t.destination_account.account_holder_name
-				: t.source_account.account_holder_name;
-		}
+			if (t.description?.startsWith('Internal Transfer |')) {
+				const fromMatch = t.description.match(/from:\s*(\S+)/);
+				const toMatch = t.description.match(/to:\s*(\S+)/);
+				accountName = t.direction === 'OUTBOUND'
+					? `${(fromMatch && resolveAccountName(fromMatch[1])) ?? 'Unknown'}`
+					: `${(toMatch && resolveAccountName(toMatch[1])) ?? 'Unknown'}`;
+			} else {
+				accountName = t.direction === 'OUTBOUND'
+					? t.destination_account.account_holder_name
+					: t.source_account.account_holder_name;
+			}
 
-		return {
-			id: t.transfer_id,
-			description: t.description.startsWith('Internal Transfer | ') ? 'Internal Transfer' : t.description,
-			date: t.initiated_date,
-			accountName,
-			amount: t.direction === 'OUTBOUND' ? -t.amount : t.amount,
-			icon: 'bank'
-		};
-	});
+			return {
+				id: t.transfer_id,
+				description: t.description.startsWith('Internal Transfer | ') ? 'Internal Transfer' : t.description,
+				date: t.initiated_date,
+				accountName,
+				amount: t.direction === 'OUTBOUND' ? -t.amount : t.amount,
+				icon: 'bank'
+			};
+		});
 
-	$: sortedActivity = [...mockActivity, ...transferActivity].sort((a, b) =>
-		new Date(b.date).getTime() - new Date(a.date).getTime()
-	);
+		return [...mockActivity, ...transferActivity].sort((a, b) =>
+			new Date(b.date).getTime() - new Date(a.date).getTime()
+		);
+	}
 </script>
 
 <svelte:head>
@@ -75,9 +77,15 @@
 					<h2 id="activity-heading" class="card-heading">Recent Activity</h2>
 					<p class="card-subtitle">Latest movements across all accounts</p>
 					<div class="activity-list">
-						{#each sortedActivity as item (item.id)}
-							<TransactionItem title={item.description} meta="{formatDate(item.date)} · {item.accountName}" amount={item.amount} icon={item.icon} />
-						{/each}
+						{#await data.transfers}
+							{#each Array(5) as _, i (i)}
+								<div class="skeleton-item" aria-hidden="true"></div>
+							{/each}
+						{:then transfers}
+							{#each buildActivity(transfers) as item (item.id)}
+								<TransactionItem title={item.description} meta="{formatDate(item.date)} · {item.accountName}" amount={item.amount} icon={item.icon} />
+							{/each}
+						{/await}
 					</div>
 				</section>
 			</div>
@@ -133,6 +141,25 @@
 		font-size: var(--text-xs-fs);
 		color: var(--text-light-fg-ci);
 		margin-bottom: var(--s-3);
+	}
+
+	.skeleton-item {
+		height: 52px;
+		border-radius: var(--radius-md);
+		background: linear-gradient(
+			90deg,
+			var(--c-gray-light) 25%,
+			var(--c-gray) 50%,
+			var(--c-gray-light) 75%
+		);
+		background-size: 200% 100%;
+		animation: skeleton-shimmer 1.4s ease-in-out infinite;
+		margin-bottom: var(--s-2);
+	}
+
+	@keyframes skeleton-shimmer {
+		0% { background-position: 200% 0; }
+		100% { background-position: -200% 0; }
 	}
 
 	.error-banner {

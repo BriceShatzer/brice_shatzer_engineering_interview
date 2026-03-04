@@ -244,7 +244,7 @@ resolve: {
 }
 ```
 
-The `$app/stores` mock exposes a writable `page` store so tests can call `page.set(...)` to simulate route changes (used for testing `Header`'s active-link behavior).
+The `$app/stores` mock exposes writable `page` and `navigating` stores. Tests can call `page.set(...)` to simulate route changes (used for testing `Header`'s active-link behavior).
 
 ---
 
@@ -292,7 +292,7 @@ On both the transfers page and accounts activity feed, if a transfer's descripti
 
 - **End-to-end tests**: The test suite covers units and components but doesn't exercise full user flows. Playwright tests for the transfer lifecycle (fill form, submit, verify result screen, check history) would catch integration issues.
 - **Error boundaries**: Errors currently show inline banners. A more robust approach would use SvelteKit's `+error.svelte` pages with proper status codes and retry logic.
-- **Loading states**: There are no skeleton screens or loading indicators during initial data fetch. On slow connections the page appears blank until the server load resolves.
+- **Loading states**: The accounts activity feed uses SvelteKit streaming (`{#await data.transfers}`) to show a skeleton while transfer history loads, and a navigation bar appears during page transitions. The initial render still blocks on the layout load (accounts, bank, domains) — streaming those too would require reworking the store hydration pattern.
 - **Transfer amount validation**: The current implementation validates against the displayed balance, but doesn't account for pending transfers that may have reduced the actual available balance.
 - **In-memory cache**: The transfer account data cache in `transfers.server.ts` lives in server memory. In a production multi-instance deployment, this would need a shared store (Redis, database) or the API would need to return correct data.
 - **Animation and transitions**: State changes (form to result, dropdown open/close) happen instantly. Svelte's built-in transitions would make these feel more polished.
