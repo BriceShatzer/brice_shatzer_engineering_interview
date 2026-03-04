@@ -42,6 +42,22 @@ npm run build
 npm run preview
 ```
 
+### Code Quality
+
+```sh
+# Type-check the project
+npm run check
+
+# Type-check in watch mode
+npm run check:watch
+
+# Format code (Prettier)
+npm run format
+
+# Lint code (ESLint)
+npm run lint
+```
+
 ---
 
 ## Architecture & Design Decisions
@@ -289,9 +305,9 @@ On both the transfers page and accounts activity feed, if a transfer's descripti
 
 ## Trade-offs & What I'd Improve
 
+- **Transfer amount validation**: The current implementation validates against the displayed balance, but doesn't account for pending transfers that may have reduced the actual available balance. Since `TransferStatusResponse` includes `expected_completion_date`, `source_account`, and `destination_account`, we could theoretically calculate and display projected account balances in the UI before a transfer has settled.
 - **End-to-end tests**: The test suite covers units and components but doesn't exercise full user flows. Playwright tests for the transfer lifecycle (fill form, submit, verify result screen, check history) would catch integration issues.
 - **Error boundaries**: Route-level errors are caught by `src/routes/+error.svelte`, which renders a branded card with the HTTP status and message. Inline load errors (e.g., failed account fetch) still show banners rather than throwing — a future improvement could convert those to proper `error()` throws so they route through the same boundary.
 - **Loading states**: The accounts activity feed uses SvelteKit streaming (`{#await data.transfers}`) to show a skeleton while transfer history loads, and a navigation bar appears during page transitions. The initial render still blocks on the layout load (accounts, bank, domains) — streaming those too would require reworking the store hydration pattern.
-- **Transfer amount validation**: The current implementation validates against the displayed balance, but doesn't account for pending transfers that may have reduced the actual available balance.
 - **In-memory cache**: The transfer account data cache in `transfers.server.ts` lives in server memory. This is acceptable for a single-server dev environment where the workaround exists solely to patch incorrect API responses — production use would require a shared store (Redis, database) or a corrected API.
 - **Animation and transitions**: State changes (form to result, dropdown open/close) happen instantly. Svelte's built-in transitions would make these feel more polished.
