@@ -1,6 +1,5 @@
 import { json } from '@sveltejs/kit';
-import { cacheTransferAccountData, initiateTransfer } from '$lib/api/transfers.server';
-import { ApiError } from '$lib/api/client.server';
+import { cacheTransferAccountData, initiateTransfer, ApiError } from '$lib/api';
 import type { RequestHandler } from './$types';
 import type { TransferRequest } from '$lib/types';
 

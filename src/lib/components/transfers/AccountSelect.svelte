@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher, onMount } from 'svelte';
 	import type { AccountSummary } from '$lib/types';
-	import { getDisplayName, getStatusLabel, isActive } from '$lib/utils/accounts';
-	import { formatCurrency, maskAccountNumber } from '$lib/utils/format';
+	import { getDisplayName, getStatusLabel, isActive, formatCurrency, maskAccountNumber } from '$lib/utils';
 
 	export let accounts: AccountSummary[] = [];
 	export let selected: AccountSummary | null = null;

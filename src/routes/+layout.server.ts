@@ -1,6 +1,4 @@
-import { fetchAccounts } from '$lib/api/accounts.server';
-import { fetchBank } from '$lib/api/bank.server';
-import { fetchDomains } from '$lib/api/domains.server';
+import { fetchAccounts, fetchBank, fetchDomains } from '$lib/api';
 import type { LayoutServerLoad } from './$types';
 
 export const load: LayoutServerLoad = async () => {

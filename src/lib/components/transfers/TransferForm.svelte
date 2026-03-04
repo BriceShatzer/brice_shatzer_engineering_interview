@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 	import type { AccountSummary } from '$lib/types';
-	import { institutionName } from '$lib/stores/bank';
-	import { isActive } from '$lib/utils/accounts';
+	import { institutionName } from '$lib/stores';
+	import { isActive } from '$lib/utils';
 	import AccountSelect from './AccountSelect.svelte';
 
 	export let accounts: AccountSummary[] = [];

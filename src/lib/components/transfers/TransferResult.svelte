@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import { formatCurrency, formatFullDate } from '$lib/utils/format';
+	import { formatCurrency, formatFullDate } from '$lib/utils';
 
 	export let type: 'success' | 'failure';
 	export let amount: number = 0;

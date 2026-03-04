@@ -1,6 +1,6 @@
 import type { AccountSummary, AccountType } from '$lib/types';
 import { get } from 'svelte/store';
-import { domains } from '$lib/stores/domains';
+import { domains } from '$lib/stores';
 
 const TYPE_DISPLAY_NAMES: Record<AccountType, string> = {
 	CHECKING: 'Everyday Checking',

@@ -1,10 +1,8 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
-	import { accounts } from '$lib/stores/accounts';
-	import { institutionName } from '$lib/stores/bank';
+	import { accounts, institutionName } from '$lib/stores';
 	import type { AccountSummary, RecentTransfer, TransferRequest, TransferStatusResponse, ValidationResponse } from '$lib/types';
-	import { getDisplayName } from '$lib/utils/accounts';
-	import { formatAccountLabel, formatDate } from '$lib/utils/format';
+	import { getDisplayName, formatAccountLabel, formatDate } from '$lib/utils';
 	import TransferForm from '$lib/components/transfers/TransferForm.svelte';
 	import TransferSummary from '$lib/components/transfers/TransferSummary.svelte';
 	import TransferResult from '$lib/components/transfers/TransferResult.svelte';

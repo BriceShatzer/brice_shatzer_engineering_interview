@@ -24,6 +24,8 @@ Additionally, the GET transfers list returns incorrect `source_account` & `desti
 - tests  
 - ARIA labels / accessibility 
 - Check for vestigial stuff
+  - unused css classes
+  - invalid css vars
 - use /bank & /domains api to set hardcoded/missing values 
 - redo commented out part of readme
 - get execution paths for things (maybe with diagrams)

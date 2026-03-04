@@ -1,9 +1,7 @@
 <script lang="ts">
 	import '../app.css';
 	import Header from '$lib/components/shared/Header.svelte';
-	import { accounts } from '$lib/stores/accounts';
-	import { bank } from '$lib/stores/bank';
-	import { domains } from '$lib/stores/domains';
+	import { accounts, bank, domains } from '$lib/stores';
 	import type { LayoutData } from './$types';
 
 	export let data: LayoutData;

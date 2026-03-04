@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { AccountSummary } from '$lib/types';
-	import { getDisplayName } from '$lib/utils/accounts';
-	import { formatCurrency } from '$lib/utils/format';
+	import { getDisplayName, formatCurrency } from '$lib/utils';
 
 	export let source: AccountSummary | null = null;
 	export let destination: AccountSummary | null = null;

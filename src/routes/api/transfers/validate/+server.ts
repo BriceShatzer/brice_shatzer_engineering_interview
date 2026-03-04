@@ -1,6 +1,5 @@
 import { json } from '@sveltejs/kit';
-import { validateTransfer } from '$lib/api/transfers.server';
-import { ApiError } from '$lib/api/client.server';
+import { validateTransfer, ApiError } from '$lib/api';
 import type { RequestHandler } from './$types';
 import type { TransferRequest } from '$lib/types';
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { formatSignedCurrency } from '$lib/utils/format';
+	import { formatSignedCurrency } from '$lib/utils';
 	import bankIcon from '$lib/assets/bank.svg';
 	import shoppingCartIcon from '$lib/assets/shopping-cart.svg';
 	import moneyBagIcon from '$lib/assets/money-bag.svg';

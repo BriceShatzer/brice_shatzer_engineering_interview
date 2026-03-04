@@ -1,4 +1,4 @@
-import { fetchTransfers } from '$lib/api/transfers.server';
+import { fetchTransfers } from '$lib/api';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async () => {

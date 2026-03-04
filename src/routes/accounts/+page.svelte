@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { accounts, totalBalance, activeAccountCount } from '$lib/stores/accounts';
+	import { accounts, totalBalance, activeAccountCount } from '$lib/stores';
 	import TotalBalanceCard from '$lib/components/accounts/TotalBalanceCard.svelte';
 	import AccountCard from '$lib/components/accounts/AccountCard.svelte';
 	import TransactionItem from '$lib/components/shared/TransactionItem.svelte';
 	import { mockActivity } from '$lib/data/mockActivity';
-	import { formatDate } from '$lib/utils/format';
+	import { formatDate } from '$lib/utils';
 	import type { PageData } from './$types';
 
 	export let data: PageData;

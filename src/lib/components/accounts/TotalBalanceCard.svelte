@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { formatCurrency } from '$lib/utils/format';
+	import { formatCurrency } from '$lib/utils';
 
 	export let totalBalance: number;
 	export let accountCount: number;

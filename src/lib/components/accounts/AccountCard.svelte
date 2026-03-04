@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { AccountSummary } from '$lib/types';
-	import { formatCurrency, maskAccountNumber } from '$lib/utils/format';
-	import { getDisplayName, getTypeBadgeLabel, getStatusLabel } from '$lib/utils/accounts';
+	import { formatCurrency, maskAccountNumber, getDisplayName, getTypeBadgeLabel, getStatusLabel } from '$lib/utils';
 
 	export let account: AccountSummary;
 
