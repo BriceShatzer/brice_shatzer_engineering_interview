@@ -14,13 +14,14 @@
 **To Dos:**  
 
 
-- pretty names for transfers
 - merge activity & transfers on homepage. 
+  - get transfers based on last activity date and merge them in 
+  https://northwind.dev.array.io/external/transfers?page=1&per_page=20&date_from=2025-12-01&date_to=2026-03-05
 - mobile styles
 - tests  
 - use /bank api to get hardcoded/missing values 
 - ARIA
-- integrate domains
+- integrate /domains
 - more accurate styling 
 - README!!
 - get execution paths for things

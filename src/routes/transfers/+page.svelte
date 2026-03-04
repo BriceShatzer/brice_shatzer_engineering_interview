@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
 	import { accounts } from '$lib/stores/accounts';
-	import type { AccountSummary, RecentTransfer, TransferAccountDetails, TransferRequest, TransferStatusResponse, ValidationResponse } from '$lib/types';
+	import type { AccountSummary, RecentTransfer, TransferRequest, TransferStatusResponse, ValidationResponse } from '$lib/types';
 	import { getDisplayName } from '$lib/utils/accounts';
 	import { formatAccountLabel, formatDate } from '$lib/utils/format';
 	import TransferForm from '$lib/components/transfers/TransferForm.svelte';
@@ -12,20 +12,36 @@
 
 	export let data: PageData;
 
-	function resolveAccountName(transferAccount: TransferAccountDetails): string {
-		const match = $accounts.find((a) => a.account_number === transferAccount.account_number);
-		if (match) return getDisplayName(match);
-		return transferAccount.institution_name || 'Unknown';
+	function resolveAccountName(accountNumber: string): string | null {
+		const match = $accounts.find((a) => a.account_number === accountNumber);
+		return match ? getDisplayName(match) : null;
 	}
 
-	$: recentTransfers = (data.transfers ?? []).map((t): RecentTransfer => ({
-		id: t.transfer_id,
-		toAccountName: `To ${resolveAccountName(t.destination_account)}`,
-		date: formatDate(t.initiated_date),
-		fromDescription: `From ${resolveAccountName(t.source_account)}`,
-		amount: t.direction === 'OUTBOUND' ? -t.amount : t.amount,
-		icon: 'bank'
-	}));
+	$: recentTransfers = [...(data.transfers ?? [])].sort((a, b) =>
+		new Date(b.initiated_date).getTime() - new Date(a.initiated_date).getTime()
+	).map((t): RecentTransfer => {
+		let toAccountName: string;
+		let fromDescription: string;
+
+		if (t.description?.startsWith('Internal Transfer |')) {
+			const fromMatch = t.description.match(/from:\s*(\S+)/);
+			const toMatch = t.description.match(/to:\s*(\S+)/);
+			fromDescription = `From ${(fromMatch && resolveAccountName(fromMatch[1])) ?? 'Unknown'}`;
+			toAccountName = `To ${(toMatch && resolveAccountName(toMatch[1])) ?? 'Unknown'}`;
+		} else {
+			toAccountName = `To ${resolveAccountName(t.destination_account.account_number) ?? t.destination_account.institution_name ?? 'Unknown'}`;
+			fromDescription = `From ${resolveAccountName(t.source_account.account_number) ?? t.source_account.institution_name ?? 'Unknown'}`;
+		}
+
+		return {
+			id: t.transfer_id,
+			toAccountName,
+			date: formatDate(t.initiated_date),
+			fromDescription,
+			amount: t.direction === 'OUTBOUND' ? -t.amount : t.amount,
+			icon: 'bank'
+		};
+	});
 
 	type ViewState =
 		| { kind: 'form' }
@@ -53,7 +69,7 @@
 		const transferRequest: TransferRequest = {
 			amount: transferAmount,
 			currency: 'USD',
-			description: `Transfer from ${getDisplayName(source)} to ${getDisplayName(destination)}`,
+			description: `Internal Transfer | from: ${source.account_number} | to: ${destination.account_number}`, // `Transfer from ${getDisplayName(source)} to ${getDisplayName(destination)}` 
 			direction: 'OUTBOUND',
 			transfer_type: 'ACH',
 			reference_number: `REF-${Date.now()}`,
