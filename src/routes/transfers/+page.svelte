@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
 	import { accounts } from '$lib/stores/accounts';
-	import type { AccountSummary, RecentTransfer, TransferRequest, TransferStatusResponse } from '$lib/types';
+	import type { AccountSummary, RecentTransfer, TransferRequest, TransferStatusResponse, ValidationResponse } from '$lib/types';
 	import { getDisplayName } from '$lib/utils/accounts';
 	import { formatAccountLabel, formatDate } from '$lib/utils/format';
 	import TransferForm from '$lib/components/TransferForm.svelte';
@@ -66,6 +66,27 @@
 		};
 
 		try {
+			// Pre-flight validation call
+			const validateResponse = await fetch('/api/transfers/validate', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(transferRequest)
+			});
+
+			if (!validateResponse.ok) {
+				const errorBody = await validateResponse.json().catch(() => null);
+				throw new Error(errorBody?.error?.message ?? `Validation failed (${validateResponse.status})`);
+			}
+
+			const validation: ValidationResponse = await validateResponse.json();
+			if (!validation.validation.valid) {
+				const errorMessages = validation.validation.issues
+					.filter((issue) => issue.severity === 'error')
+					.map((issue) => issue.message);
+				throw new Error(errorMessages.join('. ') || 'Transfer validation failed');
+			}
+
+			// Initiate transfer
 			const response = await fetch('/api/transfers', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },

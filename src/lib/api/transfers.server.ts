@@ -3,7 +3,8 @@ import type {
 	TransferAccountDetails,
 	TransferListResponse,
 	TransferRequest,
-	TransferStatusResponse
+	TransferStatusResponse,
+	ValidationResponse
 } from '$lib/types';
 
 // Cache of correct account data from transfers we initiate, keyed by transfer_id.
@@ -43,4 +44,8 @@ export async function fetchTransfers(): Promise<TransferListResponse> {
 
 export function initiateTransfer(request: TransferRequest): Promise<TransferStatusResponse> {
 	return apiPost<TransferStatusResponse>('/external/transfers/initiate', request);
+}
+
+export function validateTransfer(request: TransferRequest): Promise<ValidationResponse> {
+	return apiPost<ValidationResponse>('/external/transfers/validate', request);
 }

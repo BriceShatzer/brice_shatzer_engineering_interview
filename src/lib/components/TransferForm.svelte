@@ -21,10 +21,19 @@
 		const target = e.target as HTMLInputElement;
 		const raw = target.value.replace(/[^0-9.]/g, '');
 		const parts = raw.split('.');
-		if (parts.length > 2) return;
-		if (parts[1] && parts[1].length > 2) return;
-		amountInput = raw;
-		amount = parseFloat(raw) || 0;
+		// Allow at most one decimal point — keep only the first two parts
+		const integer = parts[0] ?? '';
+		const decimal = parts.length > 1 ? parts[1] : null;
+
+		const cleanedInteger = integer.length > 1 ? integer.replace(/^0+/, '') || '0' : integer;
+		let cleaned = cleanedInteger;
+		if (decimal !== null) {
+			cleaned += '.' + decimal.slice(0, 2);
+		}
+
+		amountInput = cleaned;
+		target.value = cleaned;
+		amount = parseFloat(cleaned) || 0;
 		if (errors.amount) {
 			errors = { ...errors, amount: '' };
 		}
@@ -33,13 +42,18 @@
 	function validate(): boolean {
 		const newErrors: Record<string, string> = {};
 
-		if (!sourceAccount) {
+		// Note: the checks that are noted below are defensive. $:canSubmit already prevents
+		// submission when these fields are invalid, but these guard against programmatic calls.
+
+		if (!sourceAccount) { // defensive
 			newErrors.source = 'Please select a source account';
 		} else if (!isActive(sourceAccount)) {
 			newErrors.source = 'Source account is not active';
+		} else if (sourceAccount.account_type === 'CD') {
+			newErrors.source = 'Transfers are not available from CD accounts';
 		}
 
-		if (!destinationAccount) {
+		if (!destinationAccount) { // defensive
 			newErrors.destination = 'Please select a destination account';
 		} else if (!isActive(destinationAccount)) {
 			newErrors.destination = 'Destination account is not active';
@@ -53,7 +67,7 @@
 			newErrors.destination = 'Cannot transfer to the same account';
 		}
 
-		if (amount <= 0) {
+		if (amount <= 0) { // defensive
 			newErrors.amount = 'Please enter an amount greater than $0';
 		} else if (sourceAccount && amount > sourceAccount.balance) {
 			newErrors.amount = `Amount exceeds available balance of $${sourceAccount.balance.toFixed(2)}`;

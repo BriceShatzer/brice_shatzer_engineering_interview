@@ -14,14 +14,17 @@
 **To Dos:**  
 
 
-- merge activity & transfers
-- pretty view for transfers
+- merge activity & transfers on homepage. 
+- pretty names for transfers
+- mobile styles
 - tests  
-- number formats  
-- README!!
+- use /bank api to get hardcoded/missing values 
+- ARIA
 - more accurate styling 
+- README!!
 - get execution paths for things
 - keep account numbers sever side  
+- - number formats  
 
 
 
