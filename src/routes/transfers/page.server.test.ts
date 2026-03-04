@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 vi.mock('$lib/api', () => ({
 	fetchTransfers: vi.fn()
@@ -28,6 +28,11 @@ const mockTransfer = {
 describe('transfers page server load', () => {
 	beforeEach(() => {
 		mockFetchTransfers.mockReset();
+		vi.spyOn(console, 'error').mockImplementation(() => {});
+	});
+
+	afterEach(() => {
+		vi.restoreAllMocks();
 	});
 	it('should return transfers on success', async () => {
 		mockFetchTransfers.mockResolvedValue({

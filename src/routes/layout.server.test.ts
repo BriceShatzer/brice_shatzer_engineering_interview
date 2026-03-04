@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 vi.mock('$lib/api', () => ({
 	fetchAccounts: vi.fn(),
@@ -43,6 +43,11 @@ describe('layout server load', () => {
 		mockFetchAccounts.mockReset();
 		mockFetchDomains.mockReset();
 		mockFetchBank.mockReset();
+		vi.spyOn(console, 'error').mockImplementation(() => {});
+	});
+
+	afterEach(() => {
+		vi.restoreAllMocks();
 	});
 
 	it('should return accounts, domains, and bank data on success', async () => {
