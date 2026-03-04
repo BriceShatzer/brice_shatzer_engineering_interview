@@ -3,12 +3,15 @@
 # My Notes
 
 
-**Things to bring up:**  
+### Things to bring up:  
 
-- transfer api — The POST `/external/transfers/initiate` response returns `source_account` with empty `account_number` and `account_holder_name` fields. It also appears to swap the source and destination account routing numbers. We patch the response with correct data from the original request at the API boundary (`/api/transfers/+server.ts`), and cache the account data in-memory on the server so that the transfer history list also displays correct values for transfers the app initiated.  
-*Note: the cache resets on server restart, so older transfers will still fall back to "Unknown"*.
 
-- `INBOUND` vs `OUTBOUND` thing I talk about below.  
+**API behavior**  
+The response that is returned from a successful post to `/external/transfers/initiate` returns `source_account` with an empty `account_number` and `account_holder_name` fields. It also appears to swap the source and destination account routing numbers. We patch the response with correct data from the original request at the API boundary (`/api/transfers/+server.ts`), and cache the account data in-memory on the server so that the transfer history list also displays correct values for transfers the app initiated.  
+*Note: the cache resets on server restart, so older transfers will still fall back to "Unknown"*.  
+
+Additionally, the GET transfers list returns incorrect `source_account` & `destination_account` values for any transfer submitted via the API. To work around this, the transfer description is set to a structured format (`"Internal Transfer | from: <account_number> | to: <account_number>"`) when submitting. On the transfers page (`/routes/transfers/+page.svelte`), if a transfer's description starts with `"Internal Transfer |"`, we parse the account numbers from the description string and resolve display names from those instead of relying on the (incorrect) account objects in the response.
+
 
 
 **To Dos:**  
@@ -17,15 +20,15 @@
 - merge activity & transfers on homepage. 
   - get transfers based on last activity date and merge them in 
   https://northwind.dev.array.io/external/transfers?page=1&per_page=20&date_from=2025-12-01&date_to=2026-03-05
-- mobile styles
+- mobile styling
 - tests  
-- use /bank api to get hardcoded/missing values 
-- ARIA
-- integrate /domains
-- more accurate styling 
-- README!!
-- get execution paths for things
-- keep account numbers sever side  
+- ARIA labels / accessibility 
+- Check for vestigial stuff
+- use /bank & /domains api to set hardcoded/missing values 
+- redo commented out part of readme
+- get execution paths for things (maybe with diagrams)
+- Work backwards off of pending transactions to display the current balance??
+
 
 
 
@@ -36,6 +39,17 @@
 
 
 - excludeAccountId in TransferForm.svelte & AccountSelect.svelte - does this serve a purpose?
+
+
+---
+
+
+<details><summary><h3>scratch paper</h3></summary>
+        
+
+- keep account numbers sever side?? 
+  
+- **SVELTE 4 !!**
 
 - when you get all of the transfers, with the individual transfer objects appearing similar to the one below. **are internal transfers "INBOUND" or "OUTBOUND"? Does it mater?** 
 
@@ -69,18 +83,9 @@
 },
 ```
 
-## ask about
 
-- the discrepancy between the account names being returned by the API & what is shown on the figma with figma.
-
-
-
-
-<details><summary><h3>scratch paper</h3></summary>
-        
-
-- **SVELTE 4 !!**
 - Money
+  - [AutoNumeric.js](https://autonumeric.org/) 
   - [dinero.js](https://www.dinerojs.com/)
 
   ```javascript
