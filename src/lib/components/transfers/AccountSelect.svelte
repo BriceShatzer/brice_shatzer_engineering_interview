@@ -8,15 +8,20 @@
 	export let excludeAccountId: string | null = null;
 	export let label: string;
 	export let id: string;
+	export let errorId: string | undefined = undefined;
 
 	const dispatch = createEventDispatcher<{ select: AccountSummary }>();
 
 	let open = false;
-	let triggerEl: HTMLButtonElement;
+	let triggerEl: HTMLDivElement;
 	let listEl: HTMLUListElement;
 	let focusedIndex = -1;
 
+	$: listboxId = `${id}-listbox`;
 	$: filteredAccounts = accounts;
+	$: activeDescendantId = open && focusedIndex >= 0 && focusedIndex < filteredAccounts.length
+		? `${id}-option-${filteredAccounts[focusedIndex].account_id}`
+		: undefined;
 	$: selectedLabel = selected
 		? `${getDisplayName(selected)}...${selected.account_number.slice(-4)}`
 		: 'Choose account';
@@ -93,15 +98,22 @@
 </script>
 
 <div class="account-select">
-	<label class="select-label" for={id}>{label}</label>
-	<button
+	<!-- svelte-ignore a11y-label-has-associated-control -->
+	<label id="{id}-label" class="select-label">{label}</label>
+	<!-- svelte-ignore a11y-no-static-element-interactions -->
+	<div
 		bind:this={triggerEl}
 		{id}
-		type="button"
 		class="trigger"
 		class:has-selection={selected !== null}
+		role="combobox"
+		tabindex="0"
+		aria-labelledby="{id}-label"
 		aria-haspopup="listbox"
 		aria-expanded={open}
+		aria-controls={open ? listboxId : undefined}
+		aria-activedescendant={activeDescendantId}
+		aria-describedby={errorId}
 		on:click={toggle}
 		on:keydown={handleKeydown}
 	>
@@ -112,11 +124,12 @@
 			{/if}
 		</div>
 		<span class="chevron" aria-hidden="true">&rsaquo;</span>
-	</button>
+	</div>
 
 	{#if open}
 		<ul
 			bind:this={listEl}
+			id={listboxId}
 			class="dropdown"
 			role="listbox"
 			aria-label="{label} options"
@@ -125,6 +138,7 @@
 			{#each filteredAccounts as account, i (account.account_id)}
 				{@const disabled = !isActive(account) || account.account_id === excludeAccountId}
 				<li
+					id="{id}-option-{account.account_id}"
 					role="option"
 					class="option"
 					class:disabled
@@ -293,7 +307,7 @@
 	}
 
 	.option-status {
-		color: var(--c-red);
+		color: var(--c-red-dark);
 		font-weight: var(--fw-medium);
 		text-transform: capitalize;
 	}

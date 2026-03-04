@@ -62,7 +62,7 @@
 	}
 
 	.balance.negative {
-		color: var(--c-red);
+		color: var(--c-red-dark);
 	}
 
 	.row-bottom {
@@ -87,7 +87,7 @@
 	}
 
 	.inactive-status {
-		color: var(--c-red);
+		color: var(--c-red-dark);
 		font-weight: var(--fw-medium);
 	}
 </style>

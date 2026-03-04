@@ -29,8 +29,8 @@
 			<div class="left-column">
 				<TotalBalanceCard totalBalance={$totalBalance} accountCount={$activeAccountCount} />
 
-				<section aria-label="Your accounts">
-					<h2 class="section-heading">Your accounts</h2>
+				<section aria-labelledby="accounts-heading">
+					<h2 id="accounts-heading" class="section-heading">Your accounts</h2>
 					<div class="account-list">
 						{#each $accounts as account (account.account_id)}
 							<AccountCard {account} />
@@ -40,8 +40,8 @@
 			</div>
 
 			<div class="right-column">
-				<section class="activity-card" aria-label="Recent activity">
-					<h2 class="card-heading">Recent Activity</h2>
+				<section class="activity-card" aria-labelledby="activity-heading">
+					<h2 id="activity-heading" class="card-heading">Recent Activity</h2>
 					<p class="card-subtitle">Latest movements across all accounts</p>
 					<div class="activity-list">
 						{#each sortedActivity as item (item.id)}

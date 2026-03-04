@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, onMount, tick } from 'svelte';
 	import { formatCurrency, formatFullDate } from '$lib/utils';
 
 	export let type: 'success' | 'failure';
@@ -11,17 +11,24 @@
 	export let errorMessage: string = '';
 
 	const dispatch = createEventDispatcher<{ done: void }>();
+
+	let headingEl: HTMLHeadingElement;
+
+	onMount(async () => {
+		await tick();
+		headingEl?.focus();
+	});
 </script>
 
 <div class="result-overlay">
-	<div class="result-card" role="alert">
+	<div class="result-card" role={type === 'failure' ? 'alert' : 'status'}>
 		{#if type === 'success'}
 			<div class="icon-circle success-icon">
 				<svg width="32" height="32" viewBox="0 0 24 24" fill="none" aria-hidden="true">
 					<path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="white" />
 				</svg>
 			</div>
-			<h2 class="result-heading">Transfer Successful</h2>
+			<h2 class="result-heading" bind:this={headingEl} tabindex="-1">Transfer Successful</h2>
 			<p class="result-subtitle">Your transfer has successfully been completed</p>
 
 			<dl class="details-table">
@@ -57,7 +64,7 @@
 					/>
 				</svg>
 			</div>
-			<h2 class="result-heading">Transfer Failed</h2>
+			<h2 class="result-heading" bind:this={headingEl} tabindex="-1">Transfer Failed</h2>
 			<p class="result-subtitle">{errorMessage}</p>
 
 			<button class="action-btn" on:click={() => dispatch('done')}>Back to transfers</button>

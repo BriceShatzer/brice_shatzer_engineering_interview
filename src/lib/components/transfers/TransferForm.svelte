@@ -98,13 +98,14 @@
 				{accounts}
 				selected={sourceAccount}
 				excludeAccountId={destinationAccount?.account_id ?? null}
+				errorId={errors.source ? 'source-error' : undefined}
 				on:select={(e) => {
 					sourceAccount = e.detail;
 					if (errors.source) errors = { ...errors, source: '' };
 				}}
 			/>
 			{#if errors.source}
-				<p class="field-error" role="alert">{errors.source}</p>
+				<p class="field-error" id="source-error" role="alert">{errors.source}</p>
 			{/if}
 		</div>
 
@@ -115,18 +116,19 @@
 				{accounts}
 				selected={destinationAccount}
 				excludeAccountId={sourceAccount?.account_id ?? null}
+				errorId={errors.destination ? 'destination-error' : undefined}
 				on:select={(e) => {
 					destinationAccount = e.detail;
 					if (errors.destination) errors = { ...errors, destination: '' };
 				}}
 			/>
 			{#if errors.destination}
-				<p class="field-error" role="alert">{errors.destination}</p>
+				<p class="field-error" id="destination-error" role="alert">{errors.destination}</p>
 			{/if}
 		</div>
 
 		<div class="field">
-			<label class="field-label" for="transfer-amount">Transfer to</label>
+			<label class="field-label" for="transfer-amount">Amount</label>
 			<div class="amount-input-wrapper">
 				<span class="currency-prefix">$</span>
 				<input
@@ -235,12 +237,12 @@
 	}
 
 	.amount-input.error {
-		color: var(--c-red);
+		color: var(--c-red-dark);
 	}
 
 	.field-error {
 		font-size: var(--text-xs-fs);
-		color: var(--c-red);
+		color: var(--c-red-dark);
 		margin-top: var(--s-1);
 	}
 

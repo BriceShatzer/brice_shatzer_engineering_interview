@@ -5,8 +5,8 @@
 	export let accountCount: number;
 </script>
 
-<section class="balance-card" aria-label="Total balance summary">
-	<p class="label">Total balance</p>
+<section class="balance-card" aria-labelledby="total-balance-heading">
+	<h2 id="total-balance-heading" class="label">Total balance</h2>
 	<p class="amount">{formatCurrency(totalBalance)}</p>
 	<p class="subtitle">Across {accountCount} accounts</p>
 </section>
@@ -23,7 +23,7 @@
 	.label {
 		font-size: var(--text-xs-fs);
 		font-weight: var(--fw-medium);
-		opacity: 0.85;
+		color: var(--c-blue-lighter);
 		margin-bottom: var(--s-1);
 	}
 
@@ -36,6 +36,6 @@
 
 	.subtitle {
 		font-size: var(--text-xs-fs);
-		opacity: 0.75;
+		color: var(--c-blue-lighter);
 	}
 </style>

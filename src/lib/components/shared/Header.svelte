@@ -56,7 +56,7 @@
 		line-height: 1;
 		letter-spacing: 0;
 		text-align: center;
-		color: var(--c-gray-dark);
+		color: var(--text-light-fg-ci);
 		text-decoration: none;
 		padding: var(--s-1) 0;
 		transition: color 0.15s ease;

@@ -14,19 +14,21 @@ Additionally, the GET transfers list returns incorrect `source_account` & `desti
 
 
 
-**To Dos:**  
+**Accessibility notes:**
+- The design doc labels the amount field as "Transfer to", but that's the same label used for the destination account select. Changed the amount input's `<label>` to "Amount" so it has a distinct, accurate accessible name.
+- `--input-focus-outline` in `tokens.css` references `var(--focus-border-size)` and `var(--focus-border-ci)` which are never defined in the token file. The token itself is unused by any component (all components define their own `:focus-visible` styles), so it resolves to a broken value. Left as-is since the tokens were provided, but this should be flagged if `--input-focus-outline` is ever consumed.
 
 
-- merge activity & transfers on homepage. 
-  - get transfers based on last activity date and merge them in 
+**To Dos:**
+
+
+- merge activity & transfers on homepage.
+  - get transfers based on last activity date and merge them in
   https://northwind.dev.array.io/external/transfers?page=1&per_page=20&date_from=2025-12-01&date_to=2026-03-05
-- mobile styling
-- tests  
-- ARIA labels / accessibility 
+- tests
 - Check for vestigial stuff
   - unused css classes
   - invalid css vars
-- use /bank & /domains api to set hardcoded/missing values 
 - redo commented out part of readme
 - get execution paths for things (maybe with diagrams)
 - Work backwards off of pending transactions to display the current balance??

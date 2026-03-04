@@ -175,8 +175,8 @@
 			<div class="right-column">
 				<TransferSummary source={sourceAccount} destination={destinationAccount} {amount} />
 
-				<section class="recent-card" aria-label="Recent transfers">
-					<h3 class="card-heading">Recent transfers</h3>
+				<section class="recent-card" aria-labelledby="recent-transfers-heading">
+					<h3 id="recent-transfers-heading" class="card-heading">Recent transfers</h3>
 					<p class="card-subtitle">Quick reference of your latest internal transfers.</p>
 					<div class="transfer-list">
 						{#each recentTransfers as item (item.id)}

@@ -12,10 +12,12 @@
 </script>
 
 <div class="app-background">
-	<main class="app-container">
+	<div class="app-container">
 		<Header />
-		<slot />
-	</main>
+		<main>
+			<slot />
+		</main>
+	</div>
 </div>
 
 <style>

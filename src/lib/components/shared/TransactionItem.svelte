@@ -84,7 +84,7 @@
 	}
 
 	.negative {
-		color: var(--c-red);
+		color: var(--c-red-dark);
 	}
 
 	.positive {
