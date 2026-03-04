@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
 	import { accounts } from '$lib/stores/accounts';
-	import type { AccountSummary, RecentTransfer, TransferRequest, TransferStatusResponse, ValidationResponse } from '$lib/types';
+	import type { AccountSummary, RecentTransfer, TransferAccountDetails, TransferRequest, TransferStatusResponse, ValidationResponse } from '$lib/types';
 	import { getDisplayName } from '$lib/utils/accounts';
 	import { formatAccountLabel, formatDate } from '$lib/utils/format';
 	import TransferForm from '$lib/components/transfers/TransferForm.svelte';
@@ -12,11 +12,17 @@
 
 	export let data: PageData;
 
+	function resolveAccountName(transferAccount: TransferAccountDetails): string {
+		const match = $accounts.find((a) => a.account_number === transferAccount.account_number);
+		if (match) return getDisplayName(match);
+		return transferAccount.institution_name || 'Unknown';
+	}
+
 	$: recentTransfers = (data.transfers ?? []).map((t): RecentTransfer => ({
 		id: t.transfer_id,
-		toAccountName: `To ${t.destination_account.account_holder_name || 'Unknown'}`,
+		toAccountName: `To ${resolveAccountName(t.destination_account)}`,
 		date: formatDate(t.initiated_date),
-		fromDescription: `From ${t.source_account.account_holder_name || 'Unknown'}`,
+		fromDescription: `From ${resolveAccountName(t.source_account)}`,
 		amount: t.direction === 'OUTBOUND' ? -t.amount : t.amount,
 		icon: 'bank'
 	}));

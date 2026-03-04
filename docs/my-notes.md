@@ -20,6 +20,7 @@
 - tests  
 - use /bank api to get hardcoded/missing values 
 - ARIA
+- integrate domains
 - more accurate styling 
 - README!!
 - get execution paths for things
