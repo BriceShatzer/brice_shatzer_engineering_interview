@@ -4,9 +4,14 @@
 	import AccountCard from '$lib/components/accounts/AccountCard.svelte';
 	import TransactionItem from '$lib/components/shared/TransactionItem.svelte';
 	import { mockActivity } from '$lib/data/mockActivity';
+	import { formatDate } from '$lib/utils/format';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
+
+	$: sortedActivity = [...mockActivity].sort((a, b) =>
+		new Date(b.date).getTime() - new Date(a.date).getTime()
+	);
 </script>
 
 <svelte:head>
@@ -39,8 +44,8 @@
 					<h2 class="card-heading">Recent Activity</h2>
 					<p class="card-subtitle">Latest movements across all accounts</p>
 					<div class="activity-list">
-						{#each mockActivity as item (item.id)}
-							<TransactionItem title={item.description} meta="{item.date} · {item.accountName}" amount={item.amount} icon={item.icon} />
+						{#each sortedActivity as item (item.id)}
+							<TransactionItem title={item.description} meta="{formatDate(item.date)} · {item.accountName}" amount={item.amount} icon={item.icon} />
 						{/each}
 					</div>
 				</section>
