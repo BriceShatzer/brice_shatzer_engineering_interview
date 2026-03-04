@@ -4,12 +4,43 @@
 	import AccountCard from '$lib/components/accounts/AccountCard.svelte';
 	import TransactionItem from '$lib/components/shared/TransactionItem.svelte';
 	import { mockActivity } from '$lib/data/mockActivity';
-	import { formatDate } from '$lib/utils';
+	import { formatDate, getDisplayName } from '$lib/utils';
 	import type { PageData } from './$types';
+	import type { ActivityItem } from '$lib/types';
 
 	export let data: PageData;
 
-	$: sortedActivity = [...mockActivity].sort((a, b) =>
+	function resolveAccountName(accountNumber: string): string | null {
+		const match = $accounts.find((a) => a.account_number === accountNumber);
+		return match ? getDisplayName(match) : null;
+	}
+
+	$: transferActivity = data.transfers.map((t): ActivityItem => {
+		let accountName: string;
+
+		if (t.description?.startsWith('Internal Transfer |')) {
+			const fromMatch = t.description.match(/from:\s*(\S+)/);
+			const toMatch = t.description.match(/to:\s*(\S+)/);
+			accountName = t.direction === 'OUTBOUND'
+				? `${(fromMatch && resolveAccountName(fromMatch[1])) ?? 'Unknown'}`
+				: `${(toMatch && resolveAccountName(toMatch[1])) ?? 'Unknown'}`;
+		} else {
+			accountName = t.direction === 'OUTBOUND'
+				? t.destination_account.account_holder_name
+				: t.source_account.account_holder_name;
+		}
+
+		return {
+			id: t.transfer_id,
+			description: t.description.startsWith('Internal Transfer | ') ? 'Internal Transfer' : t.description,
+			date: t.initiated_date,
+			accountName,
+			amount: t.direction === 'OUTBOUND' ? -t.amount : t.amount,
+			icon: 'bank'
+		};
+	});
+
+	$: sortedActivity = [...mockActivity, ...transferActivity].sort((a, b) =>
 		new Date(b.date).getTime() - new Date(a.date).getTime()
 	);
 </script>

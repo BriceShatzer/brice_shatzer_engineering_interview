@@ -25,6 +25,14 @@ export function cacheTransferAccountData(
 	});
 }
 
+export async function fetchTransfersByDateRange(
+	dateFrom: string,
+	dateTo: string
+): Promise<TransferListResponse> {
+	const params = new URLSearchParams({ page: '1', per_page: '20', date_from: dateFrom, date_to: dateTo });
+	return apiGet<TransferListResponse>(`/external/transfers?${params.toString()}`);
+}
+
 export async function fetchTransfers(): Promise<TransferListResponse> {
 	const data = await apiGet<TransferListResponse>('/external/transfers');
 

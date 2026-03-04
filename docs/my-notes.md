@@ -22,10 +22,6 @@ Additionally, the GET transfers list returns incorrect `source_account` & `desti
 **To Dos:**
 
 
-- merge activity & transfers on homepage.
-  - get transfers based on last activity date and merge them in
-  https://northwind.dev.array.io/external/transfers?page=1&per_page=20&date_from=2025-12-01&date_to=2026-03-05
-- tests
 - Check for vestigial stuff
   - unused css classes
   - invalid css vars

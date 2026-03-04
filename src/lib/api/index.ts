@@ -4,6 +4,7 @@ export { fetchDomains } from './domains.server';
 export { fetchAccounts } from './accounts.server';
 export {
 	fetchTransfers,
+	fetchTransfersByDateRange,
 	initiateTransfer,
 	validateTransfer,
 	cacheTransferAccountData
