@@ -79,7 +79,7 @@ describe('layout server load', () => {
 		mockFetchDomains.mockResolvedValue(mockDomainsData);
 		mockFetchBank.mockResolvedValue(mockBankData);
 
-		const result = (await load({} as any)) as Record<string, any>;
+		const result = (await load({} as Parameters<typeof load>[0])) as Record<string, unknown>;
 
 		expect(result.accounts).toEqual(mockAccounts);
 		expect(result.domains).toEqual(mockDomainsData);
@@ -94,7 +94,7 @@ describe('layout server load', () => {
 		mockFetchDomains.mockRejectedValue(new Error('Network error'));
 		mockFetchBank.mockResolvedValue(mockBankData);
 
-		const result = (await load({} as any)) as Record<string, any>;
+		const result = (await load({} as Parameters<typeof load>[0])) as Record<string, unknown>;
 
 		expect(result.domains).toBeNull();
 		expect(result.accounts).toEqual(mockAccounts);
@@ -108,7 +108,7 @@ describe('layout server load', () => {
 		mockFetchDomains.mockResolvedValue(mockDomainsData);
 		mockFetchBank.mockRejectedValue(new Error('Network error'));
 
-		const result = (await load({} as any)) as Record<string, any>;
+		const result = (await load({} as Parameters<typeof load>[0])) as Record<string, unknown>;
 
 		expect(result.bank).toBeNull();
 	});
@@ -118,7 +118,7 @@ describe('layout server load', () => {
 		mockFetchDomains.mockResolvedValue(mockDomainsData);
 		mockFetchBank.mockResolvedValue(mockBankData);
 
-		const result = (await load({} as any)) as Record<string, any>;
+		const result = (await load({} as Parameters<typeof load>[0])) as Record<string, unknown>;
 
 		expect(result.accounts).toEqual([]);
 		expect((result as { error?: string }).error).toBe('API down');

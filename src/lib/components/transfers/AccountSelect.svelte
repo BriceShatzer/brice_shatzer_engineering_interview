@@ -107,7 +107,6 @@
 <div class="account-select">
 	<!-- svelte-ignore a11y-label-has-associated-control -->
 	<label id="{id}-label" class="select-label">{label}</label>
-	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div
 		bind:this={triggerEl}
 		{id}

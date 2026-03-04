@@ -16,7 +16,7 @@ vi.mock('$lib/api', () => ({
 }));
 
 import { POST } from './+server';
-import { initiateTransfer, cacheTransferAccountData, ApiError } from '$lib/api';
+import { initiateTransfer, cacheTransferAccountData } from '$lib/api';
 const mockInitiateTransfer = vi.mocked(initiateTransfer);
 const mockCacheTransferAccountData = vi.mocked(cacheTransferAccountData);
 

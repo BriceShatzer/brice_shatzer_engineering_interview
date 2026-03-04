@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import { accounts, totalBalance, activeAccountCount } from '$lib/stores';
 	import TotalBalanceCard from '$lib/components/accounts/TotalBalanceCard.svelte';
 	import AccountCard from '$lib/components/accounts/AccountCard.svelte';
@@ -59,7 +60,7 @@
 	{#if data.error}
 		<div class="error-banner" role="alert">
 			<p>Failed to load accounts: {data.error}</p>
-			<a href="/accounts">Retry</a>
+			<a href={resolve('/accounts')}>Retry</a>
 		</div>
 	{:else}
 		<div class="content-grid">
@@ -82,7 +83,7 @@
 					<p class="card-subtitle">Latest movements across all accounts</p>
 					<div class="activity-list">
 						{#await data.transfers}
-							{#each Array(5) as _, i (i)}
+							{#each [1, 2, 3, 4, 5] as i (i)}
 								<div class="skeleton-item" aria-hidden="true"></div>
 							{/each}
 						{:then transfers}

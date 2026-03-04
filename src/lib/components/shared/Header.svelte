@@ -1,15 +1,16 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { resolve } from '$app/paths';
 	import logo from '$lib/assets/logo.svg';
 </script>
 
 <header class="header">
-	<a href="/accounts" class="logo" aria-label="NorthWind home">
+	<a href={resolve('/accounts')} class="logo" aria-label="NorthWind home">
 		<img src={logo} alt="NorthWind" />
 	</a>
 	<nav aria-label="Main navigation">
 		<a
-			href="/accounts"
+			href={resolve('/accounts')}
 			class="nav-link"
 			class:active={$page.url.pathname.startsWith('/accounts')}
 			aria-current={$page.url.pathname.startsWith('/accounts') ? 'page' : undefined}
@@ -17,7 +18,7 @@
 			Accounts
 		</a>
 		<a
-			href="/transfers"
+			href={resolve('/transfers')}
 			class="nav-link"
 			class:active={$page.url.pathname.startsWith('/transfers')}
 			aria-current={$page.url.pathname.startsWith('/transfers') ? 'page' : undefined}

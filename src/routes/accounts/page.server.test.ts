@@ -82,8 +82,8 @@ describe('accounts page server load', () => {
 			pagination: { total: 1, page: 1, per_page: 10 }
 		});
 
-		const result = (await load({} as any)) as Record<string, any>;
-		const transfers = await result.transfers;
+		const result = (await load({} as Parameters<typeof load>[0])) as Record<string, unknown>;
+		const transfers = await (result.transfers as Promise<Array<{ transfer_id: string }>>);
 
 		expect(transfers).toHaveLength(1);
 		expect(transfers[0].transfer_id).toBe('txn-1');
@@ -92,8 +92,8 @@ describe('accounts page server load', () => {
 	it('returns empty transfers array on API failure', async () => {
 		mockFetch.mockRejectedValue(new Error('Network error'));
 
-		const result = (await load({} as any)) as Record<string, any>;
-		const transfers = await result.transfers;
+		const result = (await load({} as Parameters<typeof load>[0])) as Record<string, unknown>;
+		const transfers = await (result.transfers as Promise<unknown[]>);
 
 		expect(transfers).toEqual([]);
 	});
@@ -101,7 +101,7 @@ describe('accounts page server load', () => {
 	it('calls fetchTransfersByDateRange with the oldest mock activity date as dateFrom', async () => {
 		mockFetch.mockResolvedValue({ transfers: [], pagination: { total: 0, page: 1, per_page: 10 } });
 
-		await load({} as any);
+		await load({} as Parameters<typeof load>[0]);
 
 		const [dateFrom] = mockFetch.mock.calls[0];
 		expect(dateFrom).toBe('2025-12-01');
@@ -111,12 +111,11 @@ describe('accounts page server load', () => {
 		mockFetch.mockResolvedValue({ transfers: [], pagination: { total: 0, page: 1, per_page: 10 } });
 
 		const before = new Date();
-		await load({} as any);
+		await load({} as Parameters<typeof load>[0]);
 
 		const [, dateTo] = mockFetch.mock.calls[0];
 		const tomorrow = new Date();
 		tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
-		const expectedDate = tomorrow.toISOString().slice(0, 10);
 
 		// Allow for the date being either today's tomorrow or the day after (rare midnight edge case)
 		expect(dateTo).toMatch(/^\d{4}-\d{2}-\d{2}$/);
@@ -129,8 +128,8 @@ describe('accounts page server load', () => {
 		const error = new Error('Something failed');
 		mockFetch.mockRejectedValue(error);
 
-		const result = (await load({} as any)) as Record<string, any>;
-		await result.transfers;
+		const result = (await load({} as Parameters<typeof load>[0])) as Record<string, unknown>;
+		await (result.transfers as Promise<unknown>);
 
 		expect(console.error).toHaveBeenCalledWith('Failed to load transfers for activity:', error);
 	});
