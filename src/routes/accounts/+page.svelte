@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { resolveRoute } from '$app/paths';
 	import { accounts, totalBalance, activeAccountCount } from '$lib/stores/accounts';
-	import TotalBalanceCard from '$lib/components/TotalBalanceCard.svelte';
-	import AccountCard from '$lib/components/AccountCard.svelte';
-	import TransactionItem from '$lib/components/TransactionItem.svelte';
+	import TotalBalanceCard from '$lib/components/accounts/TotalBalanceCard.svelte';
+	import AccountCard from '$lib/components/accounts/AccountCard.svelte';
+	import TransactionItem from '$lib/components/shared/TransactionItem.svelte';
 	import { mockActivity } from '$lib/data/mockActivity';
 	import type { PageData } from './$types';
 

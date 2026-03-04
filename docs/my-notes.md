@@ -14,8 +14,8 @@
 **To Dos:**  
 
 
-- merge activity & transfers on homepage. 
 - pretty names for transfers
+- merge activity & transfers on homepage. 
 - mobile styles
 - tests  
 - use /bank api to get hardcoded/missing values 

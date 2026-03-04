@@ -4,10 +4,10 @@
 	import type { AccountSummary, RecentTransfer, TransferRequest, TransferStatusResponse, ValidationResponse } from '$lib/types';
 	import { getDisplayName } from '$lib/utils/accounts';
 	import { formatAccountLabel, formatDate } from '$lib/utils/format';
-	import TransferForm from '$lib/components/TransferForm.svelte';
-	import TransferSummary from '$lib/components/TransferSummary.svelte';
-	import TransferResult from '$lib/components/TransferResult.svelte';
-	import TransactionItem from '$lib/components/TransactionItem.svelte';
+	import TransferForm from '$lib/components/transfers/TransferForm.svelte';
+	import TransferSummary from '$lib/components/transfers/TransferSummary.svelte';
+	import TransferResult from '$lib/components/transfers/TransferResult.svelte';
+	import TransactionItem from '$lib/components/shared/TransactionItem.svelte';
 	import type { PageData } from './$types';
 
 	export let data: PageData;

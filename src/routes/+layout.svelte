@@ -1,6 +1,6 @@
 <script lang="ts">
 	import '../app.css';
-	import Header from '$lib/components/Header.svelte';
+	import Header from '$lib/components/shared/Header.svelte';
 	import { accounts } from '$lib/stores/accounts';
 	import type { LayoutData } from './$types';
 
