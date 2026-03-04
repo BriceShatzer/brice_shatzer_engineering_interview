@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
 	import { accounts } from '$lib/stores/accounts';
+	import { institutionName } from '$lib/stores/bank';
 	import type { AccountSummary, RecentTransfer, TransferRequest, TransferStatusResponse, ValidationResponse } from '$lib/types';
 	import { getDisplayName } from '$lib/utils/accounts';
 	import { formatAccountLabel, formatDate } from '$lib/utils/format';
@@ -76,13 +77,13 @@
 			source_account: {
 				account_number: source.account_number,
 				account_holder_name: source.account_holder_name,
-				institution_name: 'Northwind Bank',
+				institution_name: $institutionName,
 				routing_number: source.routing_number
 			},
 			destination_account: {
 				account_number: destination.account_number,
 				account_holder_name: destination.account_holder_name,
-				institution_name: 'Northwind Bank',
+				institution_name: $institutionName,
 				routing_number: destination.routing_number
 			}
 		};

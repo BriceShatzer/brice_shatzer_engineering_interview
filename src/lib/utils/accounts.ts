@@ -1,4 +1,6 @@
 import type { AccountSummary, AccountType } from '$lib/types';
+import { get } from 'svelte/store';
+import { domains } from '$lib/stores/domains';
 
 const TYPE_DISPLAY_NAMES: Record<AccountType, string> = {
 	CHECKING: 'Everyday Checking',
@@ -7,19 +9,20 @@ const TYPE_DISPLAY_NAMES: Record<AccountType, string> = {
 	LOAN: 'Personal Loan'
 };
 
-const TYPE_BADGE_LABELS: Record<AccountType, string> = {
-	CHECKING: 'Checking',
-	SAVINGS: 'Savings',
-	CD: 'CD',
-	LOAN: 'Loan'
-};
-
 export function getDisplayName(account: AccountSummary): string {
 	return TYPE_DISPLAY_NAMES[account.account_type] ?? account.account_type;
 }
 
 export function getTypeBadgeLabel(type: AccountType): string {
-	return TYPE_BADGE_LABELS[type] ?? type;
+	const domainsData = get(domains);
+	const match = domainsData?.account_types.find((t) => t.code === type);
+	return match?.display_name ?? type;
+}
+
+export function getStatusLabel(status: string): string {
+	const domainsData = get(domains);
+	const match = domainsData?.account_statuses.find((s) => s.code === status);
+	return match?.display_name ?? status.charAt(0) + status.slice(1).toLowerCase();
 }
 
 export function isTransferable(account: AccountSummary): boolean {

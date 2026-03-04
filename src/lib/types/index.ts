@@ -110,6 +110,78 @@ export interface ValidationResponse {
 	data?: unknown;
 }
 
+// Domain reference data types
+export interface DomainValue {
+	code: string;
+	display_name: string;
+	description: string;
+}
+
+export interface TransferTypeDomain extends DomainValue {
+	processing_days: number;
+	fee: number;
+	min_amount: number;
+	max_amount: number;
+	is_reversible: boolean;
+}
+
+export interface DirectionDomain {
+	code: string;
+	display_name: string;
+}
+
+export interface DomainsResponse {
+	integration_statuses: DomainValue[];
+	account_types: DomainValue[];
+	account_statuses: DomainValue[];
+	transaction_types: DomainValue[];
+	transaction_statuses: DomainValue[];
+	transfer_statuses: DomainValue[];
+	transfer_types: TransferTypeDomain[];
+	external_transfer_statuses: DomainValue[];
+	directions: DirectionDomain[];
+}
+
+// Bank reference data types
+export interface BankInstitution {
+	name: string;
+	established: string;
+	address: string;
+	city: string;
+	state: string;
+	zip_code: string;
+	website: string;
+	phone: string;
+	email: string;
+}
+
+export interface BankRoutingNumber {
+	routing_number: string;
+	status: string;
+	description: string;
+	valid_for: string[];
+	acquired_from?: string;
+}
+
+export interface BankServices {
+	ach_transfers: boolean;
+	wire_transfers: boolean;
+	check_processing: boolean;
+	mobile_banking: boolean;
+}
+
+export interface BankBusinessHours {
+	customer_service: string;
+	wire_cutoff: string;
+}
+
+export interface BankResponse {
+	institution: BankInstitution;
+	routing_numbers: BankRoutingNumber[];
+	services: BankServices;
+	business_hours: BankBusinessHours;
+}
+
 export interface ActivityItem {
 	id: string;
 	description: string;

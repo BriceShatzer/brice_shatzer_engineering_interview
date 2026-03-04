@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { AccountSummary } from '$lib/types';
 	import { formatCurrency, maskAccountNumber } from '$lib/utils/format';
-	import { getDisplayName, getTypeBadgeLabel } from '$lib/utils/accounts';
+	import { getDisplayName, getTypeBadgeLabel, getStatusLabel } from '$lib/utils/accounts';
 
 	export let account: AccountSummary;
 
@@ -10,9 +10,7 @@
 	$: badge = getTypeBadgeLabel(account.account_type);
 	$: isInactive = account.account_status !== 'ACTIVE';
 	$: isNegative = account.balance < 0;
-	$: statusLabel = isInactive
-		? account.account_status.charAt(0) + account.account_status.slice(1).toLowerCase()
-		: 'Available';
+	$: statusLabel = isInactive ? getStatusLabel(account.account_status) : 'Available';
 </script>
 
 <article class="account-card" class:inactive={isInactive}>

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 	import type { AccountSummary } from '$lib/types';
+	import { institutionName } from '$lib/stores/bank';
 	import { isActive } from '$lib/utils/accounts';
 	import AccountSelect from './AccountSelect.svelte';
 
@@ -147,7 +148,7 @@
 		</div>
 
 		<p class="disclaimer">
-			By continuing, I authorize Northwind Bank to transfer money as indicated
+			By continuing, I authorize {$institutionName} to transfer money as indicated
 		</p>
 
 		<button

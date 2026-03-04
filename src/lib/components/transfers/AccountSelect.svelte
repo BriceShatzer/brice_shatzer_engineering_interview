@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher, onMount } from 'svelte';
 	import type { AccountSummary } from '$lib/types';
-	import { getDisplayName, isActive } from '$lib/utils/accounts';
+	import { getDisplayName, getStatusLabel, isActive } from '$lib/utils/accounts';
 	import { formatCurrency, maskAccountNumber } from '$lib/utils/format';
 
 	export let accounts: AccountSummary[] = [];
@@ -156,7 +156,7 @@
 							<span class="option-status">
 								{account.account_id === excludeAccountId
 									? 'Already selected'
-									: account.account_status}
+									: getStatusLabel(account.account_status)}
 							</span>
 						{/if}
 					</div>

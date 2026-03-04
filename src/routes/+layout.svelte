@@ -2,11 +2,15 @@
 	import '../app.css';
 	import Header from '$lib/components/shared/Header.svelte';
 	import { accounts } from '$lib/stores/accounts';
+	import { bank } from '$lib/stores/bank';
+	import { domains } from '$lib/stores/domains';
 	import type { LayoutData } from './$types';
 
 	export let data: LayoutData;
 
 	$: accounts.set(data.accounts);
+	$: domains.set(data.domains ?? null);
+	$: bank.set(data.bank ?? null);
 </script>
 
 <div class="app-background">
