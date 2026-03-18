@@ -11,10 +11,12 @@ export default defineConfig({
 		setupFiles: ['./src/test-setup.ts']
 	},
 	resolve: {
-		alias: {
-			$lib: path.resolve('./src/lib'),
-			'$env/static/private': path.resolve('./src/__mocks__/env.ts'),
-			'$app/stores': path.resolve('./src/__mocks__/app-stores.ts')
-		}
+		alias: [
+			{ find: /^.*\.svg$/, replacement: path.resolve('./src/__mocks__/svgMock.ts') },
+			{ find: '$lib', replacement: path.resolve('./src/lib') },
+			{ find: '$env/static/private', replacement: path.resolve('./src/__mocks__/env.ts') },
+			{ find: '$app/stores', replacement: path.resolve('./src/__mocks__/app-stores.ts') },
+			{ find: '$app/paths', replacement: path.resolve('./src/__mocks__/app-paths.ts') }
+		]
 	}
 });
